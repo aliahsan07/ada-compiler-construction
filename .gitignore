@@ -1,0 +1,6 @@
+jflex-1.8.2 
+*.class 
+*.jar 
+*.tar.gz 
+parser.java 
+sym.java
