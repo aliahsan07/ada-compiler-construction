@@ -53,14 +53,18 @@ Symbol newSym(int tokenId, Object value) {
  */
 
 tab           = \\t
-newline		    = \\n
-slash			    = \\
+newline		  = \\n
+slash		  = \\
 letter        = [A-Za-z]
 digit         = [0-9]
-id   			    = {letter}+ 
+id   		  = {letter}[{letter}{digit}]*  
 intlit	      = {digit}+
+charlit       = \'([^\'\\]|{whitespace})\' // TODO: fix this
+floatlit      = {digit}+\.{digit}+ 
+strlit        = \"(\\.|[^"\\])*\"  
 inlinecomment = {slash}{slash}.*\n
-whitespace    = [ \n\t\r]
+blockcomment =  {slash}\*(.|\n)*\*{slash}
+whitespace    = [ \n\t\r] 
 
 
 
@@ -70,6 +74,18 @@ whitespace    = [ \n\t\r]
  */
 read               { return newSym(sym.READ, "read"); }
 print		       { return newSym(sym.PRINT, "print"); }
+printline		   { return newSym(sym.PRINTLINE, "printline"); }
+int                { return newSym(sym.INT, "int"); }
+char               { return newSym(sym.CHAR, "char"); }
+bool               { return newSym(sym.BOOL, "bool"); }
+float              { return newSym(sym.FLOAT, "float"); }
+void               { return newSym(sym.VOID, "void"); }
+if                 { return newSym(sym.IF, "if"); } 
+else               { return newSym(sym.ELSE, "else"); } 
+while              { return newSym(sym.WHILE, "while"); } 
+return             { return newSym(sym.RETURN, "return"); }
+true               { return newSym(sym.TRUE, "true"); }
+false              { return newSym(sym.FALSE, "false"); }
 "*"                { return newSym(sym.TIMES, "*"); }
 "+"                { return newSym(sym.PLUS, "+"); }
 "-"                { return newSym(sym.MINUS, "-"); }
@@ -81,15 +97,28 @@ print		       { return newSym(sym.PRINT, "print"); }
 "<="               { return newSym(sym.LTE, "<="); }
 ">="               { return newSym(sym.GTE, ">="); }
 "=="               { return newSym(sym.EQ, "=="); } 
-"<>"               { return newSym(sym.TEMPLATE, "<>"); }
+"<>"               { return newSym(sym.NE, "<>"); }
 "\\"               { return newSym(sym.OR, "\\"); }
 "&&"               { return newSym(sym.AND, "&&"); }
+"["                { return newSym(sym.LSQBRACKET, "["); }
+"]"                { return newSym(sym.RSQBRACKET, "]"); }
+"("                { return newSym(sym.LPARA, "("); }
+")"                { return newSym(sym.RPARA, ")"); }
+"{"                { return newSym(sym.LBRACE, "{"); }
+"}"                { return newSym(sym.RBRACE, "}"); }
+"~"                { return newSym(sym.NEGATION, "~"); }
+"?"                { return newSym(sym.TERNARY, "?"); }
+":"                { return newSym(sym.COLON, ":"); }
 var		           { return newSym(sym.VAR, "var"); }
 class              { return newSym(sym.CLASS, "class"); }
 final              { return newSym(sym.FINAL, "final"); }
 {id}               { return newSym(sym.ID, yytext()); }
 {intlit}           { return newSym(sym.INTLIT, new Integer(yytext())); }
+{charlit}          { return newSym(sym.CHARLIT, char(yytext())); }
+{strlit}           { return newSym(sym.STRLIT, new String(yytext())); }
+{floatlit}         { return newSym(sym.FLOATLIT, new Float(yytext())); }
 {inlinecomment}    { /* For this stand-alone lexer, print out comments. */}
+{blockcomment}     { /* For this stand-alone lexer, print out comments. */}
 {whitespace}       { /* Ignore whitespace. */ }
 .                  { System.out.println("Illegal char, '" + yytext() +
                     "' line: " + yyline + ", column: " + yychar); } 
