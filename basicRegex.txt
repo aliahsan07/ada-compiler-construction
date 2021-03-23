@@ -7,8 +7,12 @@ varName
 '_'
 '.'
 "abc"
+"   "
 "sphinx of black quartz, judge my vow"
 \\this is a comment
 \*
 this is a multiline block comment.
+*\
+\*              
+    csdvc       
 *\

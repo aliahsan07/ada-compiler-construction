@@ -1,0 +1,11 @@
+Token #46, with value = varName; at line 0, column 0
+Token #47, with value = 100; at line 1, column 0
+Token #47, with value = 1; at line 2, column 0
+Token #48, with value = 3.14; at line 3, column 0
+Token #49, with value = 'a'; at line 4, column 0
+Token #49, with value = 'z'; at line 5, column 0
+Token #49, with value = '_'; at line 6, column 0
+Token #49, with value = '.'; at line 7, column 0
+Token #50, with value = "abc"; at line 8, column 0
+Token #50, with value = "   "; at line 9, column 0
+Token #50, with value = "sphinx of black quartz, judge my vow"; at line 10, column 0

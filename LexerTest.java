@@ -1,12 +1,12 @@
 import java.io.*;
 import java_cup.runtime.*;
 
-public class ExampleLexerTest{
+public class LexerTest{
 
     public static void main(String[] args) {
         Symbol sym;
         try {
-            ExampleLexer lexer = new ExampleLexer(new FileReader(args[0]));
+            Lexer lexer = new Lexer(new FileReader(args[0]));
             for (sym = lexer.next_token(); sym.sym != 0;
                     sym = lexer.next_token()) {
 

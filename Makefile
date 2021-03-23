@@ -10,27 +10,27 @@ default: run
 .SUFFIXES: $(SUFFIXES) .class .java
 
 .java.class:
-				$(JAVAC) -cp $(CP) $*.java
+		$(JAVAC) -cp $(CP) $*.java
 
-FILE=		ExampleLexer.java      parser.java    sym.java \
-				ExampleLexerTest.java
+FILE=	Lexer.java	parser.java	sym.java \
+			LexerTest.java
 
-run: lexerTest.txt
+run: testFile
 
-lexerTest.txt: all
-		$(JAVA) -cp $(CP) ExampleLexerTest lexTest.txt > lexTest-output.txt
-		cat -n lexTest-output.txt
+testFile: all
+		$(JAVA) -cp $(CP) LexerTest basicRegex.txt > testFile-output.txt
+		cat -n testFile-output.txt
 
-all: ExampleLexer.java parser.java $(FILE:java=class)
+all: Lexer.java parser.java $(FILE:java=class)
 
 clean:
-		rm -f *.class *~ *.bak ExampleLexer.java parser.java sym.java
+		rm -f *.class *~ *.bak Lexer.java parser.java sym.java
 
-ExampleLexer.java: exampleGrammar.jflex
-		$(JFLEX) exampleGrammar.jflex
+Lexer.java: grammar.jflex
+	$(JFLEX) grammar.jflex
 
-parser.java: exampleTokens.cup
-		$(CUP) -interface < exampleTokens.cup
+parser.java: tokens.cup
+		$(CUP) -interface < tokens.cup
 
-parserD.java: exampleTokens.cup
-		$(CUP) -interface -dump < exampleTokens.cup
+parserD.java: tokens.cup
+		$(CUP) -interface -dump < tokens.cup

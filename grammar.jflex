@@ -20,7 +20,7 @@ import java_cup.runtime.*;
 %line
 %column
 %unicode
-%class ExampleLexer
+%class Lexer
 /*
  * NOTE: the above name ExampleLexer, will have to be changed here if
  * you chose to rename the lexer object.
@@ -52,19 +52,23 @@ Symbol newSym(int tokenId, Object value) {
  * PATTERN DEFINITIONS:
  */
 
-tab           = \\t
-newline		  = \\n
-slash		  = \\
-letter        = [A-Za-z]
-digit         = [0-9]
-id   		  = {letter}[{letter}{digit}]*  
-intlit	      = {digit}+
-charlit       = \'([^\'\\]|{whitespace})\' // TODO: fix this
-floatlit      = {digit}+\.{digit}+ 
-strlit        = \"(\\.|[^"\\])*\"  
-inlinecomment = {slash}{slash}.*\n
-blockcomment =  {slash}\*(.|\n)*\*{slash}
-whitespace    = [ \n\t\r] 
+tab            = \\t
+newline		   = \\n
+slash		   = \\
+escapeapos	   = {slash}'
+escapequote	   = {slash}\"
+letter         = [A-Za-z]
+digit          = [0-9]
+id   		   = {letter}[{letter}{digit}]*  
+intlit	       = {digit}+
+charchar	   = [[^\\]&&[^']]|{newline}|{tab}|{escapeapos}|{slash}{slash}
+charlit        = '{charchar}'
+floatlit       = {digit}+\.{digit}+  // TODO: Check this again?
+stringchar	   = [[[^\\]&&[^\"]]&&[[^\n]&&[^\t]]]|{newline}|{tab}|{escapequote}|{slash}{slash}
+strlit		   = \"{stringchar}*\"
+whitespace     = [ \n\t\r] 
+inlinecomment  = {slash}{slash}.*(\n|\r|\r\n)
+blockcomment   =  ({slash}\*)([^\*]|(\*+[^\\]))*?(\*{slash}) /**/
 
 
 
@@ -88,7 +92,9 @@ true               { return newSym(sym.TRUE, "true"); }
 false              { return newSym(sym.FALSE, "false"); }
 "*"                { return newSym(sym.TIMES, "*"); }
 "+"                { return newSym(sym.PLUS, "+"); }
+"+" 		       { return newSym(sym.PREFIXPLUS, "+"); }
 "-"                { return newSym(sym.MINUS, "-"); }
+"-"		           { return newSym(sym.PREFIXMINUS, "-"); }
 "/"                { return newSym(sym.DIVIDE, "/"); }
 "="                { return newSym(sym.ASSMNT, "="); }
 ";"                { return newSym(sym.SEMI, ";"); }
@@ -97,26 +103,28 @@ false              { return newSym(sym.FALSE, "false"); }
 "<="               { return newSym(sym.LTE, "<="); }
 ">="               { return newSym(sym.GTE, ">="); }
 "=="               { return newSym(sym.EQ, "=="); } 
-"<>"               { return newSym(sym.NE, "<>"); }
-"\\"               { return newSym(sym.OR, "\\"); }
+"<>"               { return newSym(sym.NOT_EQ, "<>"); }
+"||"               { return newSym(sym.OR, "||"); }
 "&&"               { return newSym(sym.AND, "&&"); }
-"["                { return newSym(sym.LSQBRACKET, "["); }
-"]"                { return newSym(sym.RSQBRACKET, "]"); }
-"("                { return newSym(sym.LPARA, "("); }
-")"                { return newSym(sym.RPARA, ")"); }
-"{"                { return newSym(sym.LBRACE, "{"); }
-"}"                { return newSym(sym.RBRACE, "}"); }
+"["                { return newSym(sym.L_BRACKET, "["); }
+"]"                { return newSym(sym.R_BRACKET, "]"); }
+"("                { return newSym(sym.L_PARAN, "("); }
+")"                { return newSym(sym.R_PARAN, ")"); }
+"{"                { return newSym(sym.L_BRACE, "{"); }
+"}"                { return newSym(sym.R_BRACE, "}"); }
 "~"                { return newSym(sym.NEGATION, "~"); }
 "?"                { return newSym(sym.TERNARY, "?"); }
 ":"                { return newSym(sym.COLON, ":"); }
-var		           { return newSym(sym.VAR, "var"); }
+"++"               { return newSym(sym.INCREMENT, "++"); }
+"--"               { return newSym(sym.DECREMENT, "--"); }
+","               { return newSym(sym.COMMA, ","); }
 class              { return newSym(sym.CLASS, "class"); }
 final              { return newSym(sym.FINAL, "final"); }
 {id}               { return newSym(sym.ID, yytext()); }
 {intlit}           { return newSym(sym.INTLIT, new Integer(yytext())); }
-{charlit}          { return newSym(sym.CHARLIT, char(yytext())); }
-{strlit}           { return newSym(sym.STRLIT, new String(yytext())); }
-{floatlit}         { return newSym(sym.FLOATLIT, new Float(yytext())); }
+{charlit}          { return newSym(sym.CHARLIT, yytext()); }
+{strlit}           { return newSym(sym.STRLIT, yytext()); }
+{floatlit}         { return newSym(sym.FLOATLIT, new Double(yytext())); }
 {inlinecomment}    { /* For this stand-alone lexer, print out comments. */}
 {blockcomment}     { /* For this stand-alone lexer, print out comments. */}
 {whitespace}       { /* Ignore whitespace. */ }
