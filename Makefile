@@ -15,7 +15,11 @@ default: run
 FILE=	Lexer.java	parser.java	sym.java \
 			LexerTest.java
 
-run: testFile
+run: test5.as 
+
+test5.as: all
+	$(JAVA) -cp $(CP) parserText text5.as > testFile-output.txt
+		cat -n testFile-output.txt
 
 testFile: all
 		$(JAVA) -cp $(CP) LexerTest basicRegex.txt > testFile-output.txt
@@ -34,3 +38,4 @@ parser.java: tokens.cup
 
 parserD.java: tokens.cup
 		$(CUP) -interface -dump < tokens.cup
+
