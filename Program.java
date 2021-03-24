@@ -1,15 +1,15 @@
-class Program extends ExampleToken implements Token 
+class Program implements Token 
 {
-    String id;
+    String className;
     Memberdecls memberDecls;
 
-    public Program(String id, Memberdecls memberDecls){
-        this.id = id;
+    public Program(String className, Memberdecls memberDecls){
+        this.className = className;
         this.memberDecls = memberDecls; 
     }
 
 
     public String toString(int t){
-        return "class " + id + " {\n\t" + memberDecls.toString(t) + " \n}\n";
+        return "class " + className + " {\n\t" + memberDecls.toString(t+1) + " \n}\n";
     }
 }

@@ -6,9 +6,6 @@ class Returntype extends ExampleToken implements Token
         this.type = t;
     }
 
-
-    
-
     public String toString(int t){
         
         return type.toString(t);

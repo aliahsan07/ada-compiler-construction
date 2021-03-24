@@ -12,13 +12,21 @@ default: run
 .java.class:
 		$(JAVAC) -cp $(CP) $*.java
 
-FILE=	Lexer.java	parser.java	sym.java \
-			LexerTest.java
+# FILE=	Lexer.java	parser.java	sym.java \
+# 			LexerTest.java
 
-run: test5.as 
+FILE=		Lexer.java parser.java    sym.java \
+				ParserTest.java \
+				Program.java Memberdecls.java Token.java \
+				Expr.java Fielddecl.java Fielddecls.java \
+				Memberdecls.java Methoddecl.java Methoddecls.java \
+				Name.java Printlist.java Stmt.java Stmts.java \
+				Argdecl.java ArgdeclList.java Argdecls.java
+
+run: test5.as
 
 test5.as: all
-	$(JAVA) -cp $(CP) parserText text5.as > testFile-output.txt
+	$(JAVA) -cp $(CP) ParserTest ./tests/test5.as > testFile-output.txt
 		cat -n testFile-output.txt
 
 testFile: all

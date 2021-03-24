@@ -64,11 +64,11 @@ non terminal Fielddecls fielddecls;
 non terminal Fielddecl fielddecl;
 non terminal Methoddecls methoddecls;
 non terminal Methoddecl methoddecl;
-non terminal Optionalfinal optionalfinal;
-non terminal Optionalexpr optionalexpr;
-non terminal Optionalsemi optionalsemi;
-non terminal Returntype returntype;
-non terminal Type type;
+non terminal Boolean optionalfinal;
+non terminal Expr optionalexpr;
+non terminal Boolean optionalsemi;
+// non terminal Returntype returntype;
+non terminal String type;
 non terminal Argdecls argdecls;
 non terminal ArgdeclList argdeclList;
 non terminal Argdecl argdecl;
@@ -88,89 +88,117 @@ precedence left TIMES, DIVIDE;
 
 // Productions
 
-program ::= CLASS ID:i L_BRACE memberdecls:m R_BRACE
-            {:  RESULT = new Program(i,m);  :}
+program ::= CLASS ID:id L_BRACE memberdecls:mds R_BRACE
+            {:  RESULT = new Program(id, mds);  :}
             ;
 
-memberdecls ::= methoddecls:m 
-            {:  RESULT = new Memberdecls(m);  :}
+// FOR TESTING
+// memberdecls ::= methoddecls:m 
+//             {:  RESULT = new Memberdecls(m);  :}
+//             ;
+
+
+memberdecls ::= fielddecls:f methoddecls:m 
+            {:  RESULT = new Memberdecls(f, m);  :}
             ;
 
-// memberdecls ::= fielddecls:f methoddecls:m 
-//             {:  RESULT = new Memberdecls(f, m);  :}
-//             ;
-
-// fielddecls ::= fielddecl:fd fielddecls:fds 
-//             {:  RESULT = new fielddecls(fd, fds);  :}
-//             | /* the empty production */
-//             ;
-
-methoddecls ::= methoddecl:md methoddecls:mds
-            {: RESULT = new methoddecls(md, mds);  :}
+fielddecls ::= fielddecl:fd fielddecls:fds 
+            {:  RESULT = new fielddecls(fd, fds);  :}
             | /* the empty production */
             ;
 
-// fielddecl ::= optionalfinal:of type:t ID:i optionalexpr:oe SEMI
-//           {: RESULT = new fielddecl(of, t, i, oe);  :}
-//           |
-//           type:t ID:i L_BRACKET INTLIT:i R_BRACKET SEMI 
-//           {: RESULT = new fielddecl(t, i);  :}
-//           ;
+methoddecls ::= methoddecl:md methoddecls:mds
+            {: RESULT = new Methoddecls(md, mds);  :}
+            | /* the empty production */;
 
-// optionalfinal ::= FINAL 
-//             | /* the empty production */
+// FOR TESTING
+// methoddecls ::= methoddecl:md 
+//             {: RESULT = new Methoddecls(md);  :};
+        //     | /* the empty production */;
+
+fielddecl ::= optionalfinal:of type:t ID:id optionalexpr:oe SEMI
+          {: RESULT = new fielddecl(of, t, i, oe);  :}
+          |
+          type:t ID:i L_BRACKET INTLIT:i R_BRACKET SEMI 
+          {: RESULT = new fielddecl(t, i);  :}
+          ;
+
+optionalfinal ::= FINAL 
+                {: RESULT = true;  :}
+            | {: RESULT = false;  :}
+            ;
+
+optionalexpr ::= ASSMNT expr:ex
+             {: RESULT = ex;  :}
+            | {: RESULT = null;  :} /* the empty production */
+            ;
+
+// FOR TESTING
+// methoddecl ::= returntype:rt ID:i L_PARAN argdecls:a R_PARAN L_BRACE fielddecls:fd stmts:s R_BRACE optionalsemi
+//             {: RESULT = new methoddecl(rt, i, a, fd, s);  :}
 //             ;
 
-// optionalexpr ::= ASSMNT expr:e 
-//              {: RESULT = new optionalexpr(e);  :}
-//             | /* the empty production */
+// methoddecl ::= type:t ID:id L_PARAN argdecls:a R_PARAN L_BRACE stmts:s R_BRACE optionalsemi
+//             {: RESULT = new Methoddecl(t, i, a, s);  :}
 //             ;
 
-methoddecl ::= returntype:rt ID:i L_PARAN argdecls:a R_PARAN L_BRACE fielddecls:fd stmts:s R_BRACE optionalsemi
-            {: RESULT = new methoddecl(rt, i, a, fd, s);  :}
+methoddecl ::= type:t ID:id L_PARAN argdecls:a R_PARAN L_BRACE fielddecls:fds stmts:st R_BRACE optionalsemi:opt
+            {: RESULT = new Methoddecl(t, id, a, fds, st, opt);  :}
+            | type:t ID:id L_PARAN argdecls:a R_PARAN L_BRACE fielddecls:fds stmts:st R_BRACE optionalsemi:opt
+            {: RESULT = new Methoddecl("void", id, a, fds, st, opt);  :}
             ;
 
 optionalsemi ::= SEMI 
-             | /* the empty production */
+                {: RESULT = true;  :}
+             | 
+             {: RESULT = false;  :}
              ;
 
 
-returntype ::= type:t 
-               {: RESULT = new returntype(t);  :};
+// returntype ::= type:t 
+//                {: RESULT = new Returntype(t);  :};
         //     | VOID 
         //         {: RESULT =  new returntype('void');  :}
         //     ;
 
 
-type ::= INT | CHAR | BOOL | FLOAT;
+type ::= INT 
+        {: RESULT = "int";  :}
+        | CHAR 
+        {: RESULT = "char";  :}
+        | BOOL 
+        {: RESULT = "bool";  :}
+        | FLOAT
+        {: RESULT = "float";  :}
+        ;
 
 // argdecls ::= argdeclList:a 
-//             {: RESULT =  new argdecls(a);  :}
+//             {: RESULT =  new Argdecls(a);  :}
 //             | /* the empty production */
 //             ;
 
 // argdeclList ::= argdecl:ad COMMA argdeclList:adl 
-//             {: RESULT = new argdeclList(ad, adl);  :}
+//             {: RESULT = new ArgdeclList(ad, adl, false);  :}
 //             |
 //             argdecl:ad 
-//             {: RESULT = new argdeclList(ad);  :}
+//             {: RESULT = new ArgdeclList(ad, null, true);  :}
 //             ;
 
 // argdecl ::= type:t ID:i 
-//             {: RESULT = new argdecl(t, i);  :}
+//             {: RESULT = new Argdecl(t, i, false);  :}
 //             |
 //             type:t ID: i L_BRACKET R_BRACKET
-//             {: RESULT = new argdecl(t, i, 'array'); :}
+//             {: RESULT = new Argdecl(t, i, true); :}
 //             ;
 
 
-stmts ::= stmt:s stmts:ss 
-      {: RESULT = new stmts(s, ss);  :}
-      | /* the empty production */
-      ;
+// stmts ::= stmt:s stmts:ss 
+//       {: RESULT = new Stmts(s, ss);  :}
+//       | /* the empty production */
+//       ;
 
-stmt ::= PRINT L_PARAN printlist:pl R_PARAN SEMI
-        {: RESULT = new stmt(pl);  :}
+stmt ::= PRINT L_PARAN name:pl R_PARAN SEMI
+        {: RESULT = new Stmt(pl);  :}
         ;
 
 // stmt ::= IF L_PARAN expr:e R_PARAN stmt:s ifEnd:ie 
@@ -206,11 +234,15 @@ stmt ::= PRINT L_PARAN printlist:pl R_PARAN SEMI
 //         | /* the empty production */
 //         ;
 
-name ::= ID:i 
-        {: RESULT = new name(i);  :}
-        | ID:i L_BRACKET expr:e R_BRACKET
-        {: RESULT = new name(i, e);  :}
+name ::= ID:id 
+        {: RESULT = new Name(id);  :}
         ;
+
+// name ::= ID:i 
+//         {: RESULT = new name(i);  :}
+//         | ID:i L_BRACKET expr:e R_BRACKET
+//         {: RESULT = new name(i, e);  :}
+//         ;
 
 // args ::= expr:e COMMA args:a 
 //      {: RESULT = new args(e, a);  :}
@@ -232,7 +264,7 @@ name ::= ID:i
 //           ;
 
 printlist ::= expr: e 
-          {: RESULT = new printlist(e);  :}
+          {: RESULT = new Printlist(e);  :}
           ;
 
 
@@ -242,42 +274,40 @@ printlist ::= expr: e
 //               ;
 
 
-expr :: = name:n 
-        {: RESULT = new expr(n);  :}
 
-// expr ::= name:n 
-//         {: RESULT = new expr(1, n);  :}
-//         | ID:i L_PARAN R_PARAN 
-//         {: RESULT = new expr(2, i);  :}
-//         | ID:i L_PARAN args:a R_PARAN 
-//         {: RESULT = new expr(3, i, a);  :}
-//         | INTLIT:il 
-//         {: RESULT = new expr(4, il);  :}
-//         | CHARLIT:cl 
-//         {: RESULT = new expr(5, cl);  :}
-//         | STRLIT:sl 
-//         {: RESULT = new expr(6, sl);  :}
-//         | FLOATLIT:fl 
-//         {: RESULT = new expr(7, fl);  :}
-//         | TRUE
-//         {: RESULT = new expr(8);  :}
-//         | FALSE
-//         {: RESULT = new expr(9);  :}
-//         | L_PARAN expr:e R_PARAN 
-//         {: RESULT = new expr(10, e);  :}
-//         | NEGATION expr:e 
-//         {: RESULT = new expr(11, e);  :}
-//         | PREFIXMINUS expr:e 
-//         {: RESULT = new expr(12, e);  :}
-//         | PREFIXPLUS expr:e
-//         {: RESULT = new expr(13, e);  :}
-//         | L_PARAN type:t R_PARAN expr:e 
-//         {: RESULT = new expr(14, t, e);  :}
-//         | expr:e1 binaryOp:bo expr:e2
-//         {: RESULT = new expr(15, e1, e2, bo);  :}
-//         | L_PARAN expr:e1 TERNARY expr:e2 COLON expr:e3 R_PARAN 
-//         {: RESULT = new expr(16, e1, e2, e3);  :}
-//         ;
+expr ::= name:n 
+        {: RESULT = new Expr(n);  :}
+        | ID:id L_PARAN R_PARAN 
+        {: RESULT = new Expr(id, null);  :}
+        | ID:id L_PARAN args:a R_PARAN 
+        {: RESULT = new Expr(id, a);  :}
+        | INTLIT:il 
+        {: RESULT = new Expr(Integer.parseInt(il));  :}
+        | CHARLIT:cl 
+        {: RESULT = new expr(cl, "char");  :}
+        | STRLIT:sl 
+        {: RESULT = new expr(sl, "str");  :}
+        | FLOATLIT:fl 
+        {: RESULT = new expr(Float.parseFloat(fl));  :}
+        | TRUE
+        {: RESULT = new expr(true);  :}
+        | FALSE
+        {: RESULT = new expr(false);  :}
+        | L_PARAN expr:e R_PARAN 
+        {: RESULT = new expr(e, "PARA");  :}
+        | NEGATION expr:e 
+        {: RESULT = new expr(e, "~");  :}
+        | PREFIXMINUS expr:e 
+        {: RESULT = new expr(e, "-");  :}
+        | PREFIXPLUS expr:e
+        {: RESULT = new expr(e, "+");  :}
+        | L_PARAN type:t R_PARAN expr:e 
+        {: RESULT = new expr(t, e);  :}
+        | expr:e1 binaryOp:bo expr:e2
+        {: RESULT = new expr(e1, e2, bo);  :}
+        | L_PARAN expr:e1 TERNARY expr:e2 COLON expr:e3 R_PARAN 
+        {: RESULT = new expr(e1, e2, e3);  :}
+        ;
 
 
 // binaryOp ::= TIMES
@@ -304,5 +334,4 @@ expr :: = name:n
 //         {: RESULT = new binaryOp("||");  :}
 //         | AND
 //         {: RESULT = new binaryOp("&&");  :}
-
 

@@ -5,7 +5,7 @@ public class Name extends ExampleToken implements Token
 
   public Name(String id)
   {
-    this.id = input;
+    this.id = id;
   }
 
 //   public Name(String strinput, Expr exprinput)
