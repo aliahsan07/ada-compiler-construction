@@ -14,12 +14,15 @@ class Methoddecls implements Token
         methodDecls = null;
     }
 
+    public Methoddecls(){
+        this.methodDecl = null;
+        this.methodDecls = null;
+    }
+
 
     public String toString(int t){
+        if (methodDecl == null)
+            return "";
         return (methodDecl.toString(t) + methodDecls == null ? "" : methodDecls.toString(t));
-        // return fieldDecls.toString(t) + " " + methodDecls.toString(t);
-        // if (methodDecl == null)
-        //     return "";
-        // return methodDecl.toString(t) + methodDecls.toString(t);
     }
 }

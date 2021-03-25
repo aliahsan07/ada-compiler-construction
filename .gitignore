@@ -6,3 +6,6 @@ parser.java
 sym.java
 .DS_Store
 *ali-ahsan.zip
+.gradle/
+.idea/
+gradle*

@@ -82,8 +82,7 @@ class Expr extends ExampleToken implements Token {
         cond = 11;
     }
 
-    public Expr(Expr e1, BinaryOp binaryOp, Expr e2){
-        expr = new Expr[]{e1, e2};
+    public Expr(BinaryOp binaryOp){
         this.binaryOp = binaryOp;
         cond = 12;
     }
@@ -123,7 +122,7 @@ class Expr extends ExampleToken implements Token {
             case 11:
                 return "(" + cast + ")" + expr[0].toString();
             case 12:
-                return "(" + expr[0].toString() + " " + binaryOp.toString() + " " + expr[1].toString() + ")";
+                return binaryOp.toString(t);
             case 13:
                 return "(" + expr[0].toString() + " ? " + expr[1].toString() + " : " + expr[2].toString() + " )";
             default:

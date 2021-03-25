@@ -1,4 +1,4 @@
-class Stmts extends ExampleToken implements Token {
+class Stmts implements Token {
     Stmt stmt;
     Stmts stmts;
 
@@ -7,9 +7,15 @@ class Stmts extends ExampleToken implements Token {
         this.stmts = stmts;
     }
 
+    public Stmts(){
+        this.stmt = null;
+        this.stmts = null;
+    }
+
     public String toString(int t){
-        // return "inside stmts";
-        return stmt.toString(t) + " " + stmts.toString(t);
+        if (stmts == null)
+            return "";
+        return stmt.toString(t) + "" + stmts.toString(t);
         
     }
 }

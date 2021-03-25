@@ -2,19 +2,16 @@ class Argdecl extends ExampleToken implements Token{
 
     boolean isArray;
     String type;
-    String id;
+    String ID;
 
     public Argdecl(String t, String id, boolean isArray){
         this.type = t;
-        this.id = id;
+        this.ID = id;
         this.isArray = isArray;
     }
 
 
     public String toString(int t){
-        return "inside arg decl";
-        // if (!isArray)
-        //     return type + " " + id;
-        // return type + " " + id + "[]";
+        return type + " " + ID + (isArray ? "[]" : "");
     }
 }

@@ -5,11 +5,17 @@ class Argdecls extends ExampleToken implements Token{
 
     public Argdecls(ArgdeclList argdeclList){
         this.argdeclList = argdeclList;
+        this.empty = false;
+    }
+
+    public Argdecls(){
+        this.empty = true;
     }
 
     public String toString(int t){
-        return "inside argdecls";
         
-        // return argdeclList.toString(t);
+        if (empty)
+            return "";
+        return argdeclList.toString(t);
     }
 }

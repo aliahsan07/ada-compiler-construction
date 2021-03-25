@@ -1,22 +1,22 @@
 class ArgdeclList extends ExampleToken implements Token{
 
-    boolean single;
     Argdecl argdecl;
     ArgdeclList argdeclList;
 
-    public ArgdeclList(Argdecl argdecl, ArgdeclList argdeclList, boolean single){
+    public ArgdeclList(Argdecl argdecl, ArgdeclList argdeclList){
         this.argdecl = argdecl;
-        if (!single){
-            this.argdeclList = argdeclList;
-        }
-        this.single = single;
+        this.argdeclList = argdeclList;
+    }
+
+    public ArgdeclList(Argdecl argdecl){
+        this.argdecl = argdecl;
+        this.argdeclList = null;
     }
 
 
     public String toString(int t){
-        return "inside argdecl list";
-        // if (single)
-        //     return argdecl.toString(t);
-        // return argdecl.toString(t) + ", " + argdeclList.toString(t);
+        if (argdeclList == null)
+            return argdecl.toString(t);
+        return argdecl.toString() + ", " + argdeclList.toString(t);
     }
 }

@@ -1,23 +1,22 @@
-public class Name extends ExampleToken implements Token
+public class Name implements Token
 {
-  String id;
-  Expr expr;
+  String ID;
+  Expr expr = null;
 
   public Name(String id)
   {
-    this.id = id;
+    this.ID = id;
   }
 
-//   public Name(String strinput, Expr exprinput)
-//   {
-//     id = strinput;
-//     expr = exprinput;
-//     state = 1;
-//   }
+  public Name(String id, Expr expr)
+  {
+    this.ID = id;
+    this.expr = expr;
+  }
 
   public String toString(int t)
   {
-    return id;
+    return ID + ( expr == null ? "" : "[" + expr.toString() + "]");
   }
 
 }

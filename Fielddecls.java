@@ -8,13 +8,16 @@ class Fielddecls extends ExampleToken implements Token
         this.fieldDecls = fieldDecls; 
     }
 
-    public Fielddecls(Fielddecl fieldDecl){
-        this.fieldDecl = fieldDecl;
+    public Fielddecls(){
+
+        this.fieldDecl = null;
+        this.fieldDecls = null;
+
     }
 
 
     public String toString(int t){
-        return (fieldDecl.toString(t) + fieldDecls == null ? "" : fieldDecls.toString(t)) ;
+        return (fieldDecls == null ? "" : fieldDecl.toString(t) + fieldDecls.toString(t)) ;
 
     }
 }

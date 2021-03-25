@@ -19,15 +19,16 @@ class Fielddecl implements Token
         this.type = type; 
         this.ID = ID;
         this.length = length;
-        cond = 1;
+        cond = 2;
     }
 
-
     public String toString(int t){
+        String tabs = "";
+        for (int i = 0; i < t; ++i) tabs += "\t";
         if (cond == 1)
-            return (isFinal ? "final " : "") + type + " " + ID + (opExpr == null ? "" : " = " + opExpr.toString(t)) + ";";
+            return tabs + (isFinal ? "final " : "") + type + " " + ID + (opExpr == null ? "" : " = " + opExpr.toString(t)) + ";";
 
-        return type + " " + id + "[" + length + "]" + ";";
+        return tabs + type + " " + id + "[" + length + "]" + ";";
 
     }
 }
