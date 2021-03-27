@@ -1,0 +1,4 @@
+class onlyMethods {
+	int x(){
+print(x);/n } 
+}

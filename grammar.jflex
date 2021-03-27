@@ -124,7 +124,7 @@ final              { return newSym(sym.FINAL, "final"); }
 {intlit}           { return newSym(sym.INTLIT, new Integer(yytext())); }
 {charlit}          { return newSym(sym.CHARLIT, yytext()); }
 {strlit}           { return newSym(sym.STRLIT, yytext()); }
-{floatlit}         { return newSym(sym.FLOATLIT, new Double(yytext())); }
+{floatlit}         { return newSym(sym.FLOATLIT, new Float(yytext())); }
 {inlinecomment}    { /* For this stand-alone lexer, print out comments. */}
 {blockcomment}     { /* For this stand-alone lexer, print out comments. */}
 {whitespace}       { /* Ignore whitespace. */ }

@@ -59,7 +59,7 @@ terminal String CHAR; // [45]
 
 terminal String ID; // [46]
 terminal int INTLIT;
-terminal double FLOATLIT;
+terminal float FLOATLIT;
 terminal String CHARLIT;
 terminal String STRLIT; // [50]
 

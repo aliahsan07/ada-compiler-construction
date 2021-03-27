@@ -972,7 +972,7 @@ Symbol newSym(int tokenId, Object value) {
             // fall through
           case 83: break;
           case 34:
-            { return newSym(sym.FLOATLIT, new Double(yytext()));
+            { return newSym(sym.FLOATLIT, new Float(yytext()));
             }
             // fall through
           case 84: break;
