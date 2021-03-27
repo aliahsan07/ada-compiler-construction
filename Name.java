@@ -16,7 +16,7 @@ public class Name implements Token
 
   public String toString(int t)
   {
-    return ID + ( expr == null ? "" : "[" + expr.toString() + "]");
+    return ID + ( expr == null ? "" : "[" + expr.toString(t) + "]");
   }
 
 }

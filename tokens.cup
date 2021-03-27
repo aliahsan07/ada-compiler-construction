@@ -1,18 +1,24 @@
 
 import java_cup.runtime.*;
+// 0 : eof 1 : error
 
-terminal READ;
-terminal PRINT;
-terminal PRINTLINE;
-terminal CLASS;
-terminal VOID;
-terminal IF;
-terminal ELSE;
-terminal WHILE;
-terminal RETURN;
-terminal TRUE;
-terminal FALSE;
-terminal TIMES;
+terminal READ; // [2]
+terminal PRINT; // [3]
+terminal PRINTLINE; // [4]
+
+terminal CLASS; // [5]
+terminal VOID; // [6]
+
+terminal IF; // [7]
+terminal ELSE; // [8]
+terminal WHILE; // [9]
+
+terminal RETURN; // [10]
+
+terminal TRUE; // [11]
+terminal FALSE; // [12]
+
+terminal TIMES; // [13]
 terminal PLUS;
 terminal MINUS;
 terminal PREFIXPLUS;
@@ -27,44 +33,49 @@ terminal LTE;
 terminal GTE;
 terminal NOT_EQ;
 terminal OR;
-terminal AND;
-terminal L_BRACKET;
-terminal R_BRACKET;
-terminal L_PARAN;
-terminal R_PARAN;
-terminal L_BRACE;
-terminal R_BRACE;
-terminal NEGATION;
-terminal TERNARY;
-terminal COLON;
-terminal FINAL;
-terminal INCREMENT;
-terminal DECREMENT;
-terminal COMMA;
+terminal AND; // [28]
 
-terminal String INT;
+terminal L_BRACKET; // [29]
+terminal R_BRACKET;
+terminal L_PAREN;
+terminal R_PAREN;
+terminal L_BRACE;
+terminal R_BRACE; // [34]
+
+terminal NEGATION; // [35]
+terminal TERNARY; // [36]
+terminal COLON; // [37]
+
+terminal FINAL; // [38]
+
+terminal INCREMENT; //[39]
+terminal DECREMENT; // [40]
+terminal COMMA; // [41]
+
+terminal String INT; // [42]
 terminal String FLOAT;
 terminal String BOOL;
-terminal String CHAR;
+terminal String CHAR; // [45]
 
-terminal String ID;
+terminal String ID; // [46]
 terminal int INTLIT;
 terminal double FLOATLIT;
 terminal String CHARLIT;
-terminal String STRLIT;
+terminal String STRLIT; // [50]
 
 
 /*
- * this dummy token is necessary, since at least one non-terminal is
- * required to run cup
+ * list of non terminals
  */
+
 non terminal Program program;
 non terminal Memberdecls memberdecls;
+non terminal ClassMembers classmembers;
 non terminal Fielddecls fielddecls;
 non terminal Fielddecl fielddecl;
 non terminal Methoddecls methoddecls;
 non terminal Methoddecl methoddecl;
-non terminal Boolean optionalfinal;
+// non terminal Boolean optionalfinal;
 non terminal Expr optionalexpr;
 non terminal Boolean optionalsemi;
 // non terminal Returntype returntype;
@@ -74,7 +85,8 @@ non terminal ArgdeclList argdeclList;
 non terminal Argdecl argdecl;
 non terminal Stmts stmts;
 non terminal Stmt stmt;
-non terminal Stmt ifEnd; 
+non terminal Stmt ifStmt;
+non terminal Stmt ifEnd;
 non terminal Name name;
 non terminal Args args;
 non terminal Readlist readlist;
@@ -83,18 +95,42 @@ non terminal Printlinelist printlinelist;
 non terminal Expr expr;
 non terminal BinaryOp binaryOp;
 
+// handling the shift reduce conflict (*) λ  vs (*) ELSE stmt
+precedence left ELSE;
+
+precedence left ASSMNT;
+
+precedence left TERNARY;
+
+precedence left OR;
+precedence left AND;
+
+precedence left NOT_EQ, EQ;
+precedence left GT, GTE, LT, LTE;
+
 precedence left PLUS, MINUS; 
-precedence left TIMES, DIVIDE; 
+precedence left TIMES, DIVIDE;
+
+precedence left NEGATION, PREFIXPLUS, PREFIXMINUS;
 
 // Productions
+
+start with program;
 
 program ::= CLASS ID:id L_BRACE memberdecls:mds R_BRACE
             {:  RESULT = new Program(id, mds);  :}
             ;
 
-memberdecls ::= fielddecls:fds methoddecls:mds
-            {:  RESULT = new Memberdecls(fds, mds);  :}
+memberdecls ::= classmembers: cms
+            {:  RESULT = new Memberdecls(cms);  :}
             ;
+
+classmembers ::= fielddecl:fd classmembers:cms
+             {: RESULT = new ClassMembers(fd, cms);  :}
+             | methoddecl: md methoddecls:mds
+             {: RESULT = new ClassMembers(md, mds);  :}
+             | {: RESULT = new ClassMembers();  :}
+             ;
 
 fielddecls ::= fielddecl:fd fielddecls:fds 
             {:  RESULT = new Fielddecls(fd, fds);  :}
@@ -103,35 +139,36 @@ fielddecls ::= fielddecl:fd fielddecls:fds
 
 methoddecls ::= methoddecl:md methoddecls:mds
             {: RESULT = new Methoddecls(md, mds);  :}
-            | {:  RESULT = new Methoddecls();  :} /* the empty production */;
+            | {:  RESULT = new Methoddecls();  :} /* the empty production */
+            ;
 
 
 fielddecl ::= FINAL type:t ID:id optionalexpr:oe SEMI
           {: RESULT = new Fielddecl(true, t, id, oe);  :}
           | type:t ID:id optionalexpr:oe SEMI
           {: RESULT = new Fielddecl(false, t, id,oe);  :}
-          | type:t ID:id L_BRACKET INTLIT:intliteral R_BRACKET SEMI
-          {: RESULT = new Fielddecl(t, id, intliteral);  :}
+          | type:t ID:id L_BRACKET INTLIT:length R_BRACKET SEMI
+          {: RESULT = new Fielddecl(t, id, length);  :}
           ;
 
-optionalfinal ::= FINAL 
-                {: RESULT = true;  :}
-            | {: RESULT = false;  :}
-            ;
+// optionalfinal ::= FINAL
+//                {: RESULT = true;  :}
+//            | {: RESULT = false;  :}
+//            ;
 
 optionalexpr ::= ASSMNT expr:ex
              {: RESULT = ex;  :}
-            | {: RESULT = null;  :} /* the empty production */
-            ;
+             | {: RESULT = null;  :} /* the empty production */
+             ;
 
-methoddecl ::= type:t ID:id L_PARAN argdecls:a R_PARAN L_BRACE fielddecls:fds stmts:sts R_BRACE optionalsemi:opt
+methoddecl ::= type:t ID:id L_PAREN argdecls:a R_PAREN L_BRACE fielddecls:fds stmts:sts R_BRACE optionalsemi:opt
             {: RESULT = new Methoddecl(t, id, a, fds, sts, opt);  :}
-            | VOID ID:id L_PARAN argdecls:a R_PARAN L_BRACE fielddecls:fds stmts:sts R_BRACE optionalsemi:opt
+            | VOID ID:id L_PAREN argdecls:a R_PAREN L_BRACE fielddecls:fds stmts:sts R_BRACE optionalsemi:opt
             {: RESULT = new Methoddecl("void", id, a, fds, sts, opt);  :}
             ;
 
 optionalsemi ::= SEMI 
-                {: RESULT = true;  :}
+             {: RESULT = true;  :}
              | 
              {: RESULT = false;  :}
              ;
@@ -180,21 +217,21 @@ stmts ::= stmt:s stmts:ss
       ;
 
 
-stmt ::= IF L_PARAN expr:ex R_PARAN stmt:st ifEnd:ie  // if else
-        {: RESULT = new Stmt(ex, st, ie);  :}
-        | WHILE L_PARAN expr:ex R_PARAN stmt:st  // while
+stmt ::= ifStmt:ifstmt  // if else
+        {: RESULT = ifstmt;  :}
+        | WHILE L_PAREN expr:ex R_PAREN stmt:st  // while
         {: RESULT = new Stmt(ex, st);  :}
         | name:n ASSMNT expr:ex SEMI // assignment stmt
         {: RESULT = new Stmt(n, ex);  :}
-        | READ L_PARAN readlist:rl R_PARAN SEMI // read stmt
+        | READ L_PAREN readlist:rl R_PAREN SEMI // read stmt
         {: RESULT = new Stmt(rl);  :}
-        | PRINT L_PARAN printlist:pl R_PARAN SEMI // print stmt
+        | PRINT L_PAREN printlist:pl R_PAREN SEMI // print stmt
         {: RESULT = new Stmt(pl);  :}
-        | PRINTLINE L_PARAN printlinelist:pll R_PARAN SEMI // print line stmt
+        | PRINTLINE L_PAREN printlinelist:pll R_PAREN SEMI // print line stmt
         {: RESULT = new Stmt(pll);  :}
-        | ID:id L_PARAN R_PARAN SEMI // fn call without args
+        | ID:id L_PAREN R_PAREN SEMI // fn call without args
         {: RESULT = new Stmt(id);  :}
-        | ID:id L_PARAN args:a R_PARAN SEMI // fn call with args
+        | ID:id L_PAREN args:a R_PAREN SEMI // fn call with args
         {: RESULT = new Stmt(id, a);  :}
         | RETURN SEMI // return
         {: RESULT = new Stmt();  :}
@@ -204,11 +241,15 @@ stmt ::= IF L_PARAN expr:ex R_PARAN stmt:st ifEnd:ie  // if else
         {: RESULT = new Stmt(n, "inc");  :}
         | name:n DECREMENT SEMI // dec the value of var
         {: RESULT = new Stmt(n, "dec");  :}
-        | L_BRACE fielddecls:fd stmts:sts R_BRACE Optionalsemi:opt // blocks
+        | L_BRACE fielddecls:fd stmts:sts R_BRACE optionalsemi:opt // blocks
         {: RESULT = new Stmt(fd, sts, opt);  :}
         ;
 
-ifEnd ::= ELSE stmt:s 
+ifStmt ::= IF L_PAREN expr:ex R_PAREN stmt:st1 ifEnd:st2
+            {: RESULT = new Stmt(ex, st1, st2);  :};
+
+
+ifEnd ::= ELSE stmt:s
         {: RESULT = s;  :}
         | {: RESULT = null;  :} /* the empty production */
         ;
@@ -234,49 +275,50 @@ readlist ::= name:n COMMA readlist:r
 
 printlist ::= expr:ex COMMA printlist:pl
           {: RESULT = new Printlist(ex, pl);  :}
-         | expr: ex
-         {: RESULT = new Printlist(ex);  :}
-        ;
+          | expr: ex
+          {: RESULT = new Printlist(ex);  :}
+          ;
 
 
 printlinelist ::= printlist:p
               {: RESULT = new Printlinelist(p);  :}
-              | {: RESULT = new Printlinelist();  :} /* the empty production */
+              |
+              {: RESULT = new Printlinelist();  :} /* the empty production */
               ;
 
 
 
 expr ::= name:n 
         {: RESULT = new Expr(n);  :}
-        | ID:id L_PARAN R_PARAN 
-        {: RESULT = new Expr(id, null);  :}
-        | ID:id L_PARAN args:a R_PARAN 
+        | ID:id L_PAREN R_PAREN
+        {: RESULT = new Expr(id, (Args) null);  :}
+        | ID:id L_PAREN args:a R_PAREN
         {: RESULT = new Expr(id, a);  :}
         | INTLIT:il 
-        {: RESULT = new Expr(Integer.parseInt(il));  :}
+        {: RESULT = new Expr(il);  :}
         | CHARLIT:cl 
         {: RESULT = new Expr(cl, "char");  :}
         | STRLIT:sl 
         {: RESULT = new Expr(sl, "str");  :}
         | FLOATLIT:fl 
-        {: RESULT = new Expr(Float.parseFloat(fl));  :}
+        {: RESULT = new Expr(fl);  :}
         | TRUE
         {: RESULT = new Expr(true);  :}
         | FALSE
         {: RESULT = new Expr(false);  :}
-        | L_PARAN expr:e R_PARAN 
+        | L_PAREN expr:e R_PAREN
         {: RESULT = new Expr(e, "PARA");  :}
         | NEGATION expr:e 
         {: RESULT = new Expr(e, "~");  :}
         | PREFIXMINUS expr:e 
-        {: RESULT = new Expr(e, "-");  :}
+        {: RESULT = new Expr(e, "-");  :} %prec PREFIXMINUS
         | PREFIXPLUS expr:e
-        {: RESULT = new Expr(e, "+");  :}
-        | L_PARAN type:t R_PARAN expr:e 
+        {: RESULT = new Expr(e, "+");  :} %prec PREFIXPLUS
+        | L_PAREN type:t R_PAREN expr:e
         {: RESULT = new Expr(t, e);  :}
         | binaryOp:bo
         {: RESULT = new Expr(bo);  :}
-        | L_PARAN expr:e1 TERNARY expr:e2 COLON expr:e3 R_PARAN 
+        | L_PAREN expr:e1 TERNARY expr:e2 COLON expr:e3 R_PAREN
         {: RESULT = new Expr(e1, e2, e3);  :}
         ;
 
@@ -284,7 +326,7 @@ expr ::= name:n
 binaryOp ::= expr:e1 TIMES expr:e2
         {: RESULT = new BinaryOp(e1, e2, "*");  :}
         | expr:e1 DIVIDE expr:e2
-        {: RESULT = new BinaryOp(e1, e2"/");  :}
+        {: RESULT = new BinaryOp(e1, e2, "/");  :}
         | expr:e1 PLUS expr:e2
         {: RESULT = new BinaryOp(e1, e2, "+");  :}
         | expr:e1 MINUS expr:e2
@@ -305,4 +347,5 @@ binaryOp ::= expr:e1 TIMES expr:e2
         {: RESULT = new BinaryOp(e1, e2, "||");  :}
         | expr:e1 AND expr:e2
         {: RESULT = new BinaryOp(e1, e2, "&&");  :}
+        ;
 

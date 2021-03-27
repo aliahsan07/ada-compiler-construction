@@ -9,7 +9,7 @@ class BinaryOp implements Token{
         this.operator = op;
     }
 
-    public String toString(t){
+    public String toString(int t){
         return "(" + lhs.toString(t) + " " + operator + " " + rhs.toString(t) + ")";
     }
 

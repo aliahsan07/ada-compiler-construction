@@ -108,8 +108,8 @@ false              { return newSym(sym.FALSE, "false"); }
 "&&"               { return newSym(sym.AND, "&&"); }
 "["                { return newSym(sym.L_BRACKET, "["); }
 "]"                { return newSym(sym.R_BRACKET, "]"); }
-"("                { return newSym(sym.L_PARAN, "("); }
-")"                { return newSym(sym.R_PARAN, ")"); }
+"("                { return newSym(sym.L_PAREN, "("); }
+")"                { return newSym(sym.R_PAREN, ")"); }
 "{"                { return newSym(sym.L_BRACE, "{"); }
 "}"                { return newSym(sym.R_BRACE, "}"); }
 "~"                { return newSym(sym.NEGATION, "~"); }

@@ -4,7 +4,7 @@ class Methoddecls implements Token
     Methoddecl methodDecl;
     Methoddecls methodDecls;
 
-    public Methoddecls(Methoddecl methodDecl, MethodDecls methodDecls){
+    public Methoddecls(Methoddecl methodDecl, Methoddecls methodDecls){
         this.methodDecl = methodDecl;
         this.methodDecls = methodDecls; 
     }

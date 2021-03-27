@@ -28,7 +28,7 @@ class Fielddecl implements Token
         if (cond == 1)
             return tabs + (isFinal ? "final " : "") + type + " " + ID + (opExpr == null ? "" : " = " + opExpr.toString(t)) + ";";
 
-        return tabs + type + " " + id + "[" + length + "]" + ";";
+        return tabs + type + " " + ID + "[" + length + "]" + ";";
 
     }
 }

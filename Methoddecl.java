@@ -1,5 +1,5 @@
 
-class Methoddecl extends ExampleToken implements Token 
+class Methoddecl implements Token
 {
     boolean hasSemiColon;
     String type;
@@ -18,15 +18,12 @@ class Methoddecl extends ExampleToken implements Token
         this.hasSemiColon = hasSemiColon;
     }
 
-
-    
-
     public String toString(int t){
         String ret = "";
 
-        String args = argdecls.toString(t+1);
-        String fields = fielddecls.toString(t+1);
-        Strings statements = stmts.toString(t+1);
+        String args = argdecls.toString(t);
+        String fields = fielddecls.toString(t);
+        String statements = stmts.toString(t);
 
         ret += (type + " " + methodName + "(" + args + ")" + "{\n");
         ret += fields;

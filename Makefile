@@ -15,13 +15,15 @@ default: run
 # FILE=	Lexer.java	parser.java	sym.java \
 # 			LexerTest.java
 
-FILE=		Lexer.java parser.java    sym.java \
-				ParserTest.java \
-				Program.java Memberdecls.java Token.java \
-				Expr.java Fielddecl.java Fielddecls.java \
-				Memberdecls.java Methoddecl.java Methoddecls.java \
-				Name.java Printlist.java Stmt.java Stmts.java \
-				Argdecl.java ArgdeclList.java Argdecls.java
+FILE =  Lexer.java parser.java sym.java \
+        ParserTest.java \
+        Program.java Memberdecls.java Fielddecls.java \
+        Methoddecls.java Fielddecl.java Methoddecl.java \
+        Argdecls.java ArgdeclList.java Argdecl.java \
+        Stmts.java Stmt.java Name.java \
+        Args.java Readlist.java Printlist.java \
+        Printlinelist.java Expr.java BinaryOp.java Token.java
+
 
 run: test5.as
 

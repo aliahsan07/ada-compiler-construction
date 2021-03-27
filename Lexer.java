@@ -817,12 +817,12 @@ Symbol newSym(int tokenId, Object value) {
             // fall through
           case 52: break;
           case 3:
-            { return newSym(sym.L_PARAN, "(");
+            { return newSym(sym.L_PAREN, "(");
             }
             // fall through
           case 53: break;
           case 4:
-            { return newSym(sym.R_PARAN, ")");
+            { return newSym(sym.R_PAREN, ")");
             }
             // fall through
           case 54: break;

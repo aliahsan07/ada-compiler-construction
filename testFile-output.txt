@@ -1,7 +1,0 @@
-Program calling the shots
-class onlyMethods {
-	int x( ) 
-	{ x 
-	};
- 
-}

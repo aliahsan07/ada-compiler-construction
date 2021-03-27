@@ -8,7 +8,8 @@ class Expr extends ExampleToken implements Token {
     String fnName;
     Args args;
     boolean boolVal;
-    Expr expr[];
+    Expr singleExpr;
+    Expr multipleExpr[];
     String prefixOperator;
     String cast;
     BinaryOp binaryOp;
@@ -19,7 +20,7 @@ class Expr extends ExampleToken implements Token {
     }
 
     public Expr(String fnName, Args args){
-        if (!args){
+        if (args == null){
             cond = 2;
         }else{
             cond = 3;
@@ -31,6 +32,11 @@ class Expr extends ExampleToken implements Token {
     public Expr(int intlit){
         this.intlit = intlit;
         cond = 4;
+    }
+
+    public Expr(float floatlit){
+        this.floatlit = floatlit;
+        cond = 7;
     }
 
     public Expr(String str, String kind){
@@ -48,27 +54,23 @@ class Expr extends ExampleToken implements Token {
         }
     }
 
-    public Expr(float floatlit){
-        this.floatlit = floatlit;
-        cond = 7;
-    }
-
     public Expr(boolean bool){
         this.boolVal = bool;
         cond = 8; // cond 8,9
     }
 
     public Expr(Expr e, String kind){
+
         switch (kind) {
             case "PARA":
-                expr = new Expr[]{e};
+                singleExpr = e;
                 cond = 9;
                 break;
             case "~":
             case "-":
             case "+":
                 this.prefixOperator = kind;
-                expr = new Expr[]{e};
+                singleExpr = e;
                 cond = 10; 
             default:
                 break;
@@ -78,7 +80,7 @@ class Expr extends ExampleToken implements Token {
 
     public Expr(String type, Expr e){
         this.cast = type;
-        expr = new Expr[]{e};
+        singleExpr = e;
         cond = 11;
     }
 
@@ -87,8 +89,10 @@ class Expr extends ExampleToken implements Token {
         cond = 12;
     }
 
+
+
     public Expr(Expr e1, Expr e2, Expr e3){
-        expr = new Expr[]{e1, e2, e3};
+        this.multipleExpr = new Expr[]{e1, e2, e3};
         cond = 13;
     }
 
@@ -96,14 +100,12 @@ class Expr extends ExampleToken implements Token {
     {
         switch (cond) {
             case 1:
-                return name.toString();
+                return name.toString(t);
             case 2:
                 return fnName + "()";
             case 3:
                 String ret = "";
-                for (Expr e: args){
-                    ret += e.toString() + ",";
-                }
+                ret += args.toString(t);
                 ret = ret.substring(0, ret.length() > 0 ? ret.length() - 2 : 0);
                 return fnName + "(" + ret + ")";
             case 4:
@@ -116,15 +118,15 @@ class Expr extends ExampleToken implements Token {
             case 8:
                 return boolVal ? "true" : "false";
             case 9:
-                return expr[0].toString();
+                return singleExpr.toString(t);
             case 10:
-                return "(" + prefixOperator + " " + expr[0].toString() + ")";
+                return "(" + prefixOperator + " " + singleExpr.toString(t) + ")";
             case 11:
-                return "(" + cast + ")" + expr[0].toString();
+                return "(" + cast + ")" + singleExpr.toString(t);
             case 12:
                 return binaryOp.toString(t);
             case 13:
-                return "(" + expr[0].toString() + " ? " + expr[1].toString() + " : " + expr[2].toString() + " )";
+                return "(" + multipleExpr[0].toString(t) + " ? " + multipleExpr[1].toString(t) + " : " + multipleExpr[2].toString(t) + " )";
             default:
                 return "";
         }
