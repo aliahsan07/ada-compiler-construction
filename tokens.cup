@@ -238,9 +238,9 @@ stmt ::= ifStmt:ifstmt  // if else
         | RETURN expr:e SEMI // return with value
         {: RESULT = new Stmt(e);  :}
         | name:n INCREMENT SEMI // inc the value of var
-        {: RESULT = new Stmt(n, "inc");  :}
+        {: RESULT = new Stmt(n, "++");  :}
         | name:n DECREMENT SEMI // dec the value of var
-        {: RESULT = new Stmt(n, "dec");  :}
+        {: RESULT = new Stmt(n, "--");  :}
         | L_BRACE fielddecls:fd stmts:sts R_BRACE optionalsemi:opt // blocks
         {: RESULT = new Stmt(fd, sts, opt);  :}
         ;
@@ -307,12 +307,12 @@ expr ::= name:n
         | FALSE
         {: RESULT = new Expr(false);  :}
         | L_PAREN expr:e R_PAREN
-        {: RESULT = new Expr(e, "PARA");  :}
+        {: RESULT = new Expr(e, "PAREN");  :}
         | NEGATION expr:e 
         {: RESULT = new Expr(e, "~");  :}
-        | PREFIXMINUS expr:e 
+        | MINUS expr:e
         {: RESULT = new Expr(e, "-");  :} %prec PREFIXMINUS
-        | PREFIXPLUS expr:e
+        | PLUS expr:e
         {: RESULT = new Expr(e, "+");  :} %prec PREFIXPLUS
         | L_PAREN type:t R_PAREN expr:e
         {: RESULT = new Expr(t, e);  :}

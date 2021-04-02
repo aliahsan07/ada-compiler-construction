@@ -25,7 +25,27 @@ FILE =  Lexer.java parser.java sym.java \
         Printlinelist.java Expr.java BinaryOp.java Token.java
 
 
-run: test5.as
+run: myTest.as
+
+myTest.as: all
+	$(JAVA) -cp $(CP) ParserTest ./tests/testSimple.as > testFile-output.txt
+		cat -n testFile-output.txt
+
+test1.as: all
+	$(JAVA) -cp $(CP) ParserTest ./tests/test1.as > testFile-output.txt
+		cat -n testFile-output.txt
+
+test2.as: all
+	$(JAVA) -cp $(CP) ParserTest ./tests/test2.as > testFile-output.txt
+		cat -n testFile-output.txt
+
+test3.as: all
+	$(JAVA) -cp $(CP) ParserTest ./tests/test3.as > testFile-output.txt
+		cat -n testFile-output.txt
+
+test4.as: all
+	$(JAVA) -cp $(CP) ParserTest ./tests/test4.as > testFile-output.txt
+		cat -n testFile-output.txt
 
 test5.as: all
 	$(JAVA) -cp $(CP) ParserTest ./tests/test5.as > testFile-output.txt

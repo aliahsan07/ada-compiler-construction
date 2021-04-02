@@ -87,38 +87,47 @@ class Stmt extends ExampleToken implements Token {
 
     public String toString(int t){
 
+        String tabs = "";
+        int count = 0;
+        for (int i = 0; i < t; ++i) {
+            tabs += "\t";
+            count ++;
+        }
+
+        String ret = "";
         switch (cond) {
             case 1:
-                return "if (" + expr.toString(t) + ")\n" +
-                "{\n" + stmt.toString(t+1) + "\n" + "}" +
-                (elseStmt == null ? "" : "\n" + "else {\n" + elseStmt.toString(t+1) + "\n }");
-            
+                ret = tabs + "if (" + expr.toString(t) + ")\n" +
+                        (stmt.cond == 12 ? stmt.toString(t) : tabs + "{\n" + stmt.toString(t+1) + tabs + "}\n") +
+                        ((elseStmt == null ? "" : tabs + "else\n" + ( elseStmt.cond == 12 ? elseStmt.toString(t) : tabs + "{\n" + elseStmt.toString(t+1) + tabs + "}\n")));
+                return ret;
             case 2:
-                return "while (" + expr.toString(t) + ")\n" + stmt.toString(t+1) + "\n";
+                return tabs + "while (" + expr.toString(t) + ")\n" + (stmt.cond == 12 ? stmt.toString(t) : tabs + "{\n" + stmt.toString(t+1) + tabs + "}\n");
             case 3:
-                return name.toString(t) + " = " + expr.toString(t) + ";";
+                return tabs + name.toString(t) + " = " + expr.toString(t) + ";\n";
             case 4:
-                return  "read(" + readList.toString(t) + ");";
+                return  tabs + "read(" + readList.toString(t) + ");\n";
             case 5:
-                return  "print(" + printList.toString(t) + ");";
+                return  tabs + "print(" + printList.toString(t) + ");\n";
             case 6:
-                return "printlist(" + printlineList.toString(t) + ");";
+                return tabs + "printline(" + printlineList.toString(t) + ");\n";
             case 7:
-                return ID + "();";
+                return tabs + ID + "();\n";
             case 8:
-                return ID + "(" + args.toString(t) + ");";
+                return tabs + ID + "(" + args.toString(t) + ");\n";
             case 9:
-                return "return;";
+                return tabs + "return;\n";
             case 10:
-                return "return " + expr.toString(t) + ";";
+                return tabs + "return " + expr.toString(t) + ";\n";
             case 11:
-                return name.toString(t) + unaryOperator + ";";
+                return tabs + name.toString(t) + unaryOperator + ";\n";
             case 12:
-                String ret = "{\n";
+                ret = tabs + "{\n";
                 ret += fieldDecls.toString(t+1);
                 ret += stmts.toString(t+1);
-                ret += "\n}";
-                ret += (hasSemi == false ? "" : ";");
+                ret += tabs;
+                ret += "}";
+                ret += (hasSemi == false ? "\n" : ";\n");
                 return ret;
 
             default:

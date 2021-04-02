@@ -11,6 +11,7 @@ class ClassMembers implements Token
         this.classMembers = classMembers;
         this.methoddecls = null;
         this.methoddecl = null;
+
     }
 
     public ClassMembers(Methoddecl methoddecl, Methoddecls methoddecls){
@@ -21,15 +22,19 @@ class ClassMembers implements Token
     }
 
     public ClassMembers(){
+        this.methoddecl = null;
+        this.methoddecls = null;
+        this.fielddecl = null;
+        this.classMembers = null;
 
     }
 
     public String toString(int t) {
 
-        if (classMembers == null) {
-            return methoddecl.toString(t) + "" + methoddecls.toString(t);
-        } else if (methoddecl == null){
-            return fielddecl.toString(t) + "" + classMembers.toString(t);
+        if (methoddecl != null) {
+            return methoddecl.toString(t) + "" + (methoddecls == null ? "" : methoddecls.toString(t));
+        } else if (fielddecl != null ){
+            return fielddecl.toString(t) + "" + (classMembers == null ? "" : classMembers.toString(t));
         }else{
             return "";
         }

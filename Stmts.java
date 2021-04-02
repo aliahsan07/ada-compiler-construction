@@ -13,9 +13,11 @@ class Stmts implements Token {
     }
 
     public String toString(int t){
+//        String tabs = "";
+//        for (int i = 0; i < t; ++i) tabs += "\t";
         if (stmts == null)
             return "";
-        return stmt.toString(t) + "" + stmts.toString(t);
+        return stmt.toString(t) + "" + (stmts == null ? "" : stmts.toString(t));
         
     }
 }

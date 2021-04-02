@@ -1,5 +1,6 @@
 class Expr extends ExampleToken implements Token {
 
+
     Name name;
     int intlit;
     float floatlit;
@@ -62,7 +63,7 @@ class Expr extends ExampleToken implements Token {
     public Expr(Expr e, String kind){
 
         switch (kind) {
-            case "PARA":
+            case "PAREN":
                 singleExpr = e;
                 cond = 9;
                 break;
@@ -98,16 +99,14 @@ class Expr extends ExampleToken implements Token {
 
     public String toString(int t)
     {
+
         switch (cond) {
             case 1:
                 return name.toString(t);
             case 2:
                 return fnName + "()";
             case 3:
-                String ret = "";
-                ret += args.toString(t);
-                ret = ret.substring(0, ret.length() > 0 ? ret.length() - 2 : 0);
-                return fnName + "(" + ret + ")";
+                return fnName + "(" + args.toString(t) + ")";
             case 4:
                 return "" + intlit;
             case 5:
@@ -118,7 +117,7 @@ class Expr extends ExampleToken implements Token {
             case 8:
                 return boolVal ? "true" : "false";
             case 9:
-                return singleExpr.toString(t);
+                return "(" + singleExpr.toString(t) + ")";
             case 10:
                 return "(" + prefixOperator + " " + singleExpr.toString(t) + ")";
             case 11:

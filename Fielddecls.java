@@ -5,10 +5,12 @@ class Fielddecls extends ExampleToken implements Token
 
     public Fielddecls(Fielddecl fieldDecl, Fielddecls fieldDecls){
         this.fieldDecl = fieldDecl;
-        this.fieldDecls = fieldDecls; 
+        this.fieldDecls = fieldDecls;
+//        System.out.println("Testing fielddecls without lambda prod");
     }
 
     public Fielddecls(){
+//        System.out.println("Testing fielddecls");
 
         this.fieldDecl = null;
         this.fieldDecls = null;

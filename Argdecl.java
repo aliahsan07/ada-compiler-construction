@@ -1,4 +1,4 @@
-class Argdecl extends ExampleToken implements Token{
+class Argdecl implements Token{
 
     boolean isArray;
     String type;

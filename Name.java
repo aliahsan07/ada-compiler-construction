@@ -1,11 +1,12 @@
 public class Name implements Token
 {
   String ID;
-  Expr expr = null;
+  Expr expr;
 
   public Name(String id)
   {
     this.ID = id;
+    this.expr = null;
   }
 
   public Name(String id, Expr expr)

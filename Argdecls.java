@@ -1,7 +1,6 @@
-class Argdecls extends ExampleToken implements Token{
+class Argdecls implements Token{
 
     ArgdeclList argdeclList;
-    Boolean empty;
 
     public Argdecls(ArgdeclList argdeclList){
         this.argdeclList = argdeclList;

@@ -1,4 +1,4 @@
-class Printlist extends ExampleToken implements Token{
+class Printlist implements Token{
     
     Expr expr;
     Printlist printlist;
@@ -16,6 +16,6 @@ class Printlist extends ExampleToken implements Token{
     public String toString(int t){
         if (printlist == null)
             return expr.toString(t);
-        return expr.toString() + ", " + printlist.toString(t);
+        return expr.toString(t) + ", " + printlist.toString(t);
     }
 }

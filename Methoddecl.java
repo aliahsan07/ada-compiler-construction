@@ -19,17 +19,13 @@ class Methoddecl implements Token
     }
 
     public String toString(int t){
-        String ret = "";
+//        String ret = "";
 
-        String args = argdecls.toString(t);
-        String fields = fielddecls.toString(t);
-        String statements = stmts.toString(t);
 
-        ret += (type + " " + methodName + "(" + args + ")" + "{\n");
-        ret += fields;
-        ret += statements;
-        ret += "/n }" + (hasSemiColon ? ";" : "");
-        return ret;
+        String tabs = "";
+        for (int i = 0; i < t; ++i) tabs += "\t";
+
+        return tabs + type + " " + methodName + "(" + argdecls.toString(t) + ")\n" + tabs + "{\n" + fielddecls.toString(t+1) + stmts.toString(t+1) + tabs + "}" + (hasSemiColon ? ";" : "") + "\n\n";
     }
         
 }

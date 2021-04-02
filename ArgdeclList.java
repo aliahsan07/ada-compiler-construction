@@ -1,4 +1,4 @@
-class ArgdeclList extends ExampleToken implements Token{
+class ArgdeclList implements Token{
 
     Argdecl argdecl;
     ArgdeclList argdeclList;
@@ -17,6 +17,6 @@ class ArgdeclList extends ExampleToken implements Token{
     public String toString(int t){
         if (argdeclList == null)
             return argdecl.toString(t);
-        return argdecl.toString() + ", " + argdeclList.toString(t);
+        return argdecl.toString(t) + ", " + argdeclList.toString(t);
     }
 }

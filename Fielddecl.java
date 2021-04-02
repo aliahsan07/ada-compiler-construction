@@ -26,9 +26,9 @@ class Fielddecl implements Token
         String tabs = "";
         for (int i = 0; i < t; ++i) tabs += "\t";
         if (cond == 1)
-            return tabs + (isFinal ? "final " : "") + type + " " + ID + (opExpr == null ? "" : " = " + opExpr.toString(t)) + ";";
+            return tabs + (isFinal ? "final " : "") + type + " " + ID + (opExpr == null ? "" : " = " + opExpr.toString(t)) + ";\n";
 
-        return tabs + type + " " + ID + "[" + length + "]" + ";";
+        return tabs + type + " " + ID + "[" + length + "]" + ";\n";
 
     }
 }

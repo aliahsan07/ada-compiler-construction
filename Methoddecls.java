@@ -21,8 +21,6 @@ class Methoddecls implements Token
 
 
     public String toString(int t){
-        if (methodDecl == null)
-            return "";
-        return (methodDecl.toString(t) + methodDecls == null ? "" : methodDecls.toString(t));
+        return (methodDecls == null ? "" : methodDecl.toString(t))+ (methodDecls == null ? "" : methodDecls.toString(t));
     }
 }
