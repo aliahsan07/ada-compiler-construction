@@ -95,7 +95,7 @@ non terminal Printlinelist printlinelist;
 non terminal Expr expr;
 non terminal BinaryOp binaryOp;
 
-// PRECEDENCE GUIDE: https://en.cppreference.com/w/cpp/language/operator_precedence
+// PRECEDENCE GUIDE: http://www.cs.bilkent.edu.tr/~guvenir/courses/CS101/op_precedence.html
 
 // handling the shift reduce conflict (*) λ  vs (*) ELSE stmt
 precedence left ELSE;
@@ -114,9 +114,9 @@ precedence left GT, GTE, LT, LTE;
 precedence left PLUS, MINUS; 
 precedence left TIMES, DIVIDE;
 
-precedence left NEGATION, PREFIXPLUS, PREFIXMINUS;
+precedence right NEGATION, PREFIXPLUS, PREFIXMINUS;
 
-precedence left INCREMENT, DECREMENT;
+precedence right INCREMENT, DECREMENT;
 
 // Productions
 
