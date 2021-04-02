@@ -28,28 +28,28 @@ FILE =  Lexer.java parser.java sym.java \
 run: myTest.as
 
 myTest.as: all
-	$(JAVA) -cp $(CP) ParserTest ./tests/testSimple.as > testFile-output.txt
-		cat -n testFile-output.txt
+	$(JAVA) -cp $(CP) ParserTest ./tests/testSimple.as > ./test-results/testFile-output.txt
+		cat -n ./test-results/testFile-output.txt
 
 test1.as: all
-	$(JAVA) -cp $(CP) ParserTest ./tests/test1.as > testFile-output.txt
-		cat -n testFile-output.txt
+	$(JAVA) -cp $(CP) ParserTest ./tests/test1.as > ./test-results/output1.txt
+		cat -n ./test-results/output1.txt
 
 test2.as: all
-	$(JAVA) -cp $(CP) ParserTest ./tests/test2.as > testFile-output.txt
-		cat -n testFile-output.txt
+	$(JAVA) -cp $(CP) ParserTest ./tests/test2.as > ./test-results/output2.txt
+		cat -n ./test-results/output2.txt
 
 test3.as: all
-	$(JAVA) -cp $(CP) ParserTest ./tests/test3.as > testFile-output.txt
-		cat -n testFile-output.txt
+	$(JAVA) -cp $(CP) ParserTest ./tests/test3.as > ./test-results/output3.txt
+		cat -n ./test-results/output3.txt
 
 test4.as: all
-	$(JAVA) -cp $(CP) ParserTest ./tests/test4.as > testFile-output.txt
-		cat -n testFile-output.txt
+	$(JAVA) -cp $(CP) ParserTest ./tests/test4.as > ./test-results/output4.txt
+		cat -n ./test-results/output4.txt
 
 test5.as: all
-	$(JAVA) -cp $(CP) ParserTest ./tests/test5.as > testFile-output.txt
-		cat -n testFile-output.txt
+	$(JAVA) -cp $(CP) ParserTest ./tests/test5.as > ./test-results/output5.txt
+		cat -n ./test-results/output5.txt
 
 testFile: all
 		$(JAVA) -cp $(CP) LexerTest basicRegex.txt > testFile-output.txt

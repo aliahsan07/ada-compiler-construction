@@ -15,8 +15,8 @@ class ArgdeclList implements Token{
 
 
     public String toString(int t){
-        if (argdeclList == null)
-            return argdecl.toString(t);
-        return argdecl.toString(t) + ", " + argdeclList.toString(t);
+        if (argdecl == null && argdeclList == null)
+            return "";
+        return argdecl.toString(t) + (argdeclList == null ? "" : ", " + argdeclList.toString(t));
     }
 }

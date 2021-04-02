@@ -1,4 +1,4 @@
-class Fielddecls extends ExampleToken implements Token 
+class Fielddecls implements Token
 {
     Fielddecl fieldDecl;
     Fielddecls fieldDecls;
@@ -6,11 +6,9 @@ class Fielddecls extends ExampleToken implements Token
     public Fielddecls(Fielddecl fieldDecl, Fielddecls fieldDecls){
         this.fieldDecl = fieldDecl;
         this.fieldDecls = fieldDecls;
-//        System.out.println("Testing fielddecls without lambda prod");
     }
 
     public Fielddecls(){
-//        System.out.println("Testing fielddecls");
 
         this.fieldDecl = null;
         this.fieldDecls = null;
@@ -19,7 +17,10 @@ class Fielddecls extends ExampleToken implements Token
 
 
     public String toString(int t){
-        return (fieldDecls == null ? "" : fieldDecl.toString(t) + fieldDecls.toString(t)) ;
+        if (fieldDecl == null && fieldDecls == null)
+            return "";
+        return fieldDecl.toString(t) + (fieldDecls == null ? "" : fieldDecls.toString(t));
+
 
     }
 }

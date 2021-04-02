@@ -1,6 +1,5 @@
-import javax.print.attribute.standard.PrinterMakeAndModel;
 
-class Stmt extends ExampleToken implements Token {
+class Stmt implements Token {
 
     Expr expr;
     Stmt stmt;

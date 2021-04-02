@@ -1,4 +1,4 @@
-class Expr extends ExampleToken implements Token {
+class Expr implements Token {
 
 
     Name name;
@@ -125,7 +125,7 @@ class Expr extends ExampleToken implements Token {
             case 12:
                 return binaryOp.toString(t);
             case 13:
-                return "(" + multipleExpr[0].toString(t) + " ? " + multipleExpr[1].toString(t) + " : " + multipleExpr[2].toString(t) + " )";
+                return "(" + multipleExpr[0].toString(t) + " ? " + multipleExpr[1].toString(t) + " : " + multipleExpr[2].toString(t) + ")";
             default:
                 return "";
         }

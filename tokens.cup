@@ -2,23 +2,23 @@
 import java_cup.runtime.*;
 // 0 : eof 1 : error
 
-terminal READ; // [2]
-terminal PRINT; // [3]
-terminal PRINTLINE; // [4]
+terminal READ;
+terminal PRINT;
+terminal PRINTLINE;
 
-terminal CLASS; // [5]
-terminal VOID; // [6]
+terminal CLASS;
+terminal VOID;
 
-terminal IF; // [7]
-terminal ELSE; // [8]
-terminal WHILE; // [9]
+terminal IF;
+terminal ELSE;
+terminal WHILE;
 
-terminal RETURN; // [10]
+terminal RETURN;
 
-terminal TRUE; // [11]
-terminal FALSE; // [12]
+terminal TRUE;
+terminal FALSE;
 
-terminal TIMES; // [13]
+terminal TIMES;
 terminal PLUS;
 terminal MINUS;
 terminal PREFIXPLUS;
@@ -33,35 +33,35 @@ terminal LTE;
 terminal GTE;
 terminal NOT_EQ;
 terminal OR;
-terminal AND; // [28]
+terminal AND;
 
-terminal L_BRACKET; // [29]
+terminal L_BRACKET;
 terminal R_BRACKET;
 terminal L_PAREN;
 terminal R_PAREN;
 terminal L_BRACE;
-terminal R_BRACE; // [34]
+terminal R_BRACE;
 
-terminal NEGATION; // [35]
-terminal TERNARY; // [36]
-terminal COLON; // [37]
+terminal NEGATION;
+terminal TERNARY;
+terminal COLON;
 
-terminal FINAL; // [38]
+terminal FINAL;
 
-terminal INCREMENT; //[39]
-terminal DECREMENT; // [40]
-terminal COMMA; // [41]
+terminal INCREMENT;
+terminal DECREMENT;
+terminal COMMA;
 
-terminal String INT; // [42]
+terminal String INT;
 terminal String FLOAT;
 terminal String BOOL;
-terminal String CHAR; // [45]
+terminal String CHAR;
 
-terminal String ID; // [46]
+terminal String ID;
 terminal int INTLIT;
 terminal float FLOATLIT;
 terminal String CHARLIT;
-terminal String STRLIT; // [50]
+terminal String STRLIT;
 
 
 /*
@@ -95,23 +95,28 @@ non terminal Printlinelist printlinelist;
 non terminal Expr expr;
 non terminal BinaryOp binaryOp;
 
+// PRECEDENCE GUIDE: https://en.cppreference.com/w/cpp/language/operator_precedence
+
 // handling the shift reduce conflict (*) λ  vs (*) ELSE stmt
 precedence left ELSE;
 
-precedence left ASSMNT;
+// lowest precedence
+precedence left COMMA;
 
-precedence left TERNARY;
+precedence right ASSMNT, TERNARY;
 
 precedence left OR;
 precedence left AND;
 
-precedence left NOT_EQ, EQ;
+precedence left EQ, NOT_EQ;
 precedence left GT, GTE, LT, LTE;
 
 precedence left PLUS, MINUS; 
 precedence left TIMES, DIVIDE;
 
 precedence left NEGATION, PREFIXPLUS, PREFIXMINUS;
+
+precedence left INCREMENT, DECREMENT;
 
 // Productions
 

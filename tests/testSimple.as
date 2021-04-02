@@ -73,7 +73,7 @@ class testClass
         	}
 
 
-        char testMatchedIfInUnmatchedIfWhile(bool confusingName)
+        char testMatchedIfInUnmatchedIfWhile(bool confusingName, bool secondVar)
         {
             \\but it makes sense in all honesty
             if (true)
