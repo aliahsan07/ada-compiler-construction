@@ -15,4 +15,8 @@ class Printlinelist implements Token{
             return "";
         return printlist.toString(t);
     }
+
+    public VarType typeCheck() throws Exception {
+        return printlist.typeCheck();
+    }
 }

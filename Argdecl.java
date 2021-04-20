@@ -1,4 +1,4 @@
-class Argdecl implements Token{
+class Argdecl extends SuperToken implements Token{
 
     boolean isArray;
     String type;
@@ -13,5 +13,11 @@ class Argdecl implements Token{
 
     public String toString(int t){
         return type + " " + ID + (isArray ? "[]" : "");
+    }
+
+    public void typeCheck() throws Exception{
+        Boolean exists = symbolTable.addVar(ID, getTypeFromString(type), isArray);
+        if (exists)
+            throw new Exception("Variable " + ID + " is already defined in this scope.");
     }
 }

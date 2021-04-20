@@ -42,4 +42,16 @@ class ClassMembers implements Token
 
     }
 
+    public void typeCheck() throws Exception {
+        if (methoddecl != null)
+            methoddecl.typeCheck();
+        if (methoddecls != null)
+            methoddecls.typeCheck();
+        if (fielddecl != null)
+            fielddecl.typeCheck();
+        if (classMembers != null)
+            classMembers.typeCheck();
+
+    }
+
 }

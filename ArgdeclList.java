@@ -1,4 +1,4 @@
-class ArgdeclList implements Token{
+class ArgdeclList extends SuperToken implements Token{
 
     Argdecl argdecl;
     ArgdeclList argdeclList;
@@ -18,5 +18,12 @@ class ArgdeclList implements Token{
         if (argdecl == null && argdeclList == null)
             return "";
         return argdecl.toString(t) + (argdeclList == null ? "" : ", " + argdeclList.toString(t));
+    }
+
+    public void typeCheck() throws Exception{
+        if (argdecl != null)
+            argdecl.typeCheck();
+        if (argdeclList != null)
+            argdeclList.typeCheck();
     }
 }

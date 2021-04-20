@@ -18,4 +18,8 @@ class Readlist implements Token{
             return name.toString(t);
         return name.toString(t) + ", " + readlist.toString(t);
     }
+
+    public VarType typeCheck() {
+        return name.typeCheck();
+    }
 }

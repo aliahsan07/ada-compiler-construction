@@ -1,4 +1,4 @@
-class Fielddecl implements Token 
+class Fielddecl extends SuperToken implements Token
 {
     boolean isFinal = false;
     String type;
@@ -30,5 +30,26 @@ class Fielddecl implements Token
 
         return tabs + type + " " + ID + "[" + length + "]" + ";\n";
 
+    }
+
+    public void typeCheck() throws Exception {
+        VarType varType = getTypeFromString(type);
+        if (cond == 1){
+            if (opExpr != null) {
+                // check if expr and variable have same type
+                if (!opExpr.typeCheck().equals(varType)) {
+                    throw new Exception("Variable type doesn't match expr type!");
+                }
+            }
+            boolean response = symbolTable.addVar(ID, varType, false, false, isFinal);
+            if (!response)
+                throw new Exception("Variable " + ID + " is already defined in this scope!");
+
+        } else{
+            // adding array to current scope
+            boolean response = symbolTable.addVar(ID, varType, true);
+            if (!response)
+                throw new Exception("Variable " + ID + " is already defined in this scope!");
+        }
     }
 }

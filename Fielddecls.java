@@ -1,4 +1,4 @@
-class Fielddecls implements Token
+class Fielddecls extends SuperToken implements Token
 {
     Fielddecl fieldDecl;
     Fielddecls fieldDecls;
@@ -22,5 +22,12 @@ class Fielddecls implements Token
         return fieldDecl.toString(t) + (fieldDecls == null ? "" : fieldDecls.toString(t));
 
 
+    }
+
+    public void typeCheck() throws Exception {
+        if (fieldDecl != null)
+            fieldDecl.typeCheck();
+        if (fieldDecls != null)
+            fieldDecls.typeCheck();
     }
 }

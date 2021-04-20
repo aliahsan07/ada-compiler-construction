@@ -1,5 +1,5 @@
 
-class Stmt implements Token {
+class Stmt extends SuperToken implements Token {
 
     Expr expr;
     Stmt stmt;
@@ -87,10 +87,8 @@ class Stmt implements Token {
     public String toString(int t){
 
         String tabs = "";
-        int count = 0;
         for (int i = 0; i < t; ++i) {
             tabs += "\t";
-            count ++;
         }
 
         String ret = "";
@@ -134,4 +132,86 @@ class Stmt implements Token {
         }
     }
 
+    public VarType typeCheck() throws Exception {
+
+        VarType stmtType;
+        SymbolTable.VarData var;
+        switch (cond){
+            case 1:
+                stmtType = expr.typeCheck();
+                if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int) && !stmtType.equals(VarType.Float))
+                    throw new Exception("Incompatible types: " + stmtType + " cannot converted to Boolean");
+
+                typeCheckConditional(stmt);
+                if (elseStmt != null){
+                    typeCheckConditional(elseStmt);
+                }
+                break;
+
+            case 2:
+                stmtType = expr.typeCheck();
+                if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int) && !stmtType.equals(VarType.Float))
+                    throw new Exception("Incompatible types: " + stmtType + " cannot converted to Boolean");
+                typeCheckConditional(stmt);
+                break;
+            case 3:
+                VarType nameType = name.typeCheck();
+                if (!nameType.equals(expr.typeCheck()))
+                    throw new Exception("Incompatible types: " + nameType + " and " + expr.typeCheck());
+                // TODO: fix final var from changing
+                break;
+            case 4:
+                readList.typeCheck();
+                break;
+            case 5:
+                printList.typeCheck();
+                break;
+            case 6:
+                printlineList.typeCheck();
+                break;
+            case 7:
+                // check if function exists in scope
+                var = symbolTable.findVar(ID);
+                if (var == null || !var.isMethod )
+                    throw new Exception("No method found by the name of " + ID);
+                break;
+            case 8:
+                var = symbolTable.findVar(ID);
+                if (var == null || !var.isMethod )
+                    throw new Exception("No method found by the name of " + ID);
+                // check if method's arguments are comptible
+                args.typeCheck();
+                break;
+            case 9:
+                return VarType.Void;
+            case 10:
+                return expr.typeCheck();
+            case 11:
+                if (!name.typeCheck().equals(VarType.Int)){
+                    throw new Exception(name.ID + " cannot be casted to int for ++ or --");
+                }
+                return VarType.Int;
+            case 12:
+                typeCheckBlock();
+            default:
+                return null;
+
+        }
+
+        return null;
+    }
+
+    // case 12
+    private void typeCheckBlock() throws Exception{
+        symbolTable.prependScope();
+        fieldDecls.typeCheck();
+        stmts.typeCheck();
+        symbolTable.removeScope();
+    }
+
+    private void typeCheckConditional(Stmt stmt) throws Exception {
+        symbolTable.prependScope();
+        stmt.typeCheck();
+        symbolTable.removeScope();
+    }
 }

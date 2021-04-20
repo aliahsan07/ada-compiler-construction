@@ -1,4 +1,4 @@
-public class Name implements Token
+public class Name extends SuperToken implements Token
 {
   String ID;
   Expr expr;
@@ -20,4 +20,8 @@ public class Name implements Token
     return ID + ( expr == null ? "" : "[" + expr.toString(t) + "]");
   }
 
+    public VarType typeCheck() {
+      // error handling
+      return symbolTable.findVar(ID).type;
+    }
 }

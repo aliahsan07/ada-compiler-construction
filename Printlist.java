@@ -18,4 +18,13 @@ class Printlist implements Token{
             return expr.toString(t);
         return expr.toString(t) + ", " + printlist.toString(t);
     }
+
+    public VarType typeCheck() throws Exception {
+        VarType type = expr.typeCheck();
+
+        if (printlist != null)
+            printlist.typeCheck();
+
+        return type;
+    }
 }

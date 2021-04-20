@@ -1,4 +1,4 @@
-class Expr implements Token {
+class Expr extends SuperToken implements Token {
 
 
     Name name;
@@ -41,17 +41,12 @@ class Expr implements Token {
     }
 
     public Expr(String str, String kind){
-        switch (kind) {
-            case "char":
-                cond = 5;
-                this.charOrStr = str;
-                break;
-        
-            case "str":
-            default:
-                cond = 6;
-                this.charOrStr = str;
-                break;
+        if ("char".equals(kind)) {
+            cond = 5;
+            this.charOrStr = str;
+        } else {
+            cond = 6;
+            this.charOrStr = str;
         }
     }
 
@@ -62,19 +57,13 @@ class Expr implements Token {
 
     public Expr(Expr e, String kind){
 
-        switch (kind) {
-            case "PAREN":
-                singleExpr = e;
-                cond = 9;
-                break;
-            case "~":
-            case "-":
-            case "+":
-                this.prefixOperator = kind;
-                singleExpr = e;
-                cond = 10; 
-            default:
-                break;
+        if ("PAREN".equals(kind)) {
+            singleExpr = e;
+            cond = 9;
+        } else if ("~".equals(kind) || "-".equals(kind) || "+".equals(kind)) {
+            this.prefixOperator = kind;
+            singleExpr = e;
+            cond = 10;
         }
 
     }
@@ -128,6 +117,48 @@ class Expr implements Token {
                 return "(" + multipleExpr[0].toString(t) + " ? " + multipleExpr[1].toString(t) + " : " + multipleExpr[2].toString(t) + ")";
             default:
                 return "";
+        }
+    }
+
+    public VarType typeCheck() throws Exception {
+        switch (cond){
+            case 1:
+                return name.typeCheck();
+            case 2:
+                SymbolTable.VarData fn = symbolTable.findVar(fnName);
+                if (!fn.isMethod)
+                    throw new Exception("Method " + fnName + " is not defined");
+                return fn.typeCheck();
+            case 3:
+                SymbolTable.VarData fn = symbolTable.findVar(fnName);
+                if (!fn.isMethod)
+                    throw new Exception("Method " + fnName + " is not defined");
+                return fn.typeCheck();
+            case 4:
+                return VarType.Int;
+            case 5:
+                return VarType.Char;
+            case 6:
+                return VarType.String;
+            case 7:
+                return VarType.Float;
+            case 8:
+                return VarType.Bool;
+            case 9:
+                return singleExpr.typeCheck();
+            case 10:
+                // check if unary operator is compatible with the expr that's followed.
+                return singleExpr.typeCheck();
+            case 11:
+                // check if the type can be casted
+                return getTypeFromString(cast);
+            case 12:
+                return VarType.Bool;
+            case 13:
+                return VarType.Bool;
+            default:
+                return null;
+
         }
     }
 

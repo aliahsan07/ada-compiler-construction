@@ -1,4 +1,4 @@
-class Args implements Token{
+class Args extends SuperToken implements Token{
 
     Expr expr;
     Args args;
@@ -24,6 +24,13 @@ class Args implements Token{
         if (args == null && expr == null)
             return "";
         return expr.toString(t) + (args == null ? "" : (", " + args.toString(t)));
+    }
+
+    public void typeCheck() throws Exception{
+        if (expr != null)
+            expr.typeCheck();
+        if (args != null)
+            args.typeCheck();
     }
 
 }

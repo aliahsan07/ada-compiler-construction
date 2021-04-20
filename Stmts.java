@@ -18,4 +18,11 @@ class Stmts implements Token {
         return (stmt == null ? "" : stmt.toString(t)) + (stmts == null ? "" : stmts.toString(t));
         
     }
+
+    public void typeCheck() throws Exception{
+        if (stmt != null)
+            stmt.typeCheck();
+        if (stmts != null)
+            stmts.typeCheck();
+    }
 }

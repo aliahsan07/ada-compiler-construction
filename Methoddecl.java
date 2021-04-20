@@ -1,5 +1,5 @@
 
-class Methoddecl implements Token
+class Methoddecl extends SuperToken implements Token
 {
     boolean hasSemiColon;
     String type;
@@ -27,5 +27,24 @@ class Methoddecl implements Token
 
         return tabs + type + " " + methodName + "(" + argdecls.toString(t) + ")\n" + tabs + "{\n" + fielddecls.toString(t+1) + stmts.toString(t+1) + tabs + "}" + (hasSemiColon ? ";" : "") + "\n\n";
     }
-        
+
+    public void typeCheck() throws Exception {
+
+        VarType methodType = getTypeFromString(type);
+        // TODO: Figure out how to deal with args
+        if (!symbolTable.addVar(methodName, methodType, true, null)){
+            throw new Exception("Function " + methodType + " is already defined in this scope!");
+        }
+
+        typeCheckMethod();
+
+    }
+
+    private void typeCheckMethod() throws Exception {
+        symbolTable.prependScope();
+        argdecls.typeCheck();
+        fielddecls.typeCheck();
+        stmts.typeCheck();
+        symbolTable.removeScope();
+    }
 }
