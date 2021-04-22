@@ -1,7 +1,7 @@
 class x
 {
-char y;
-void y()
-{
-}
+    char y;
+    void y()
+    {
+    }
 }

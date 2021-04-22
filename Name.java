@@ -20,8 +20,13 @@ public class Name extends SuperToken implements Token
     return ID + ( expr == null ? "" : "[" + expr.toString(t) + "]");
   }
 
-    public VarType typeCheck() {
+    public VarType typeCheck() throws Exception {
       // error handling
+      if (expr != null){
+        if (!expr.typeCheck().equals(VarType.Int)){
+          throw new Exception("Expected int as array index, provided " + expr.typeCheck());
+        }
+      }
       return symbolTable.findVar(ID).type;
     }
 }

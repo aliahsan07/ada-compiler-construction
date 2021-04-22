@@ -1,10 +1,10 @@
 class x
 {
-void foo()
-{
-}
-int foo(int x)
-{
-return 1;
-}
+    void foo()
+    {
+    }
+    int foo(int x)
+    {
+        return 1;
+    }
 }

@@ -1,5 +1,5 @@
 class x
 {
-int y;
-char y;
+    int y;
+    char y;
 }

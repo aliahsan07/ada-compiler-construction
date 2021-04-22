@@ -14,7 +14,9 @@ class Program extends SuperToken implements Token
         return "class " + className + " {\n" + memberDecls.toString(t+1) + "}\n";
     }
 
-    public void typeCheck(){
+    public void typeCheck() throws Exception {
+        symbolTable.prependScope();
         memberDecls.typeCheck();
+        symbolTable.removeScope();
     }
 }

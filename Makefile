@@ -16,7 +16,8 @@ default: run
 # 			LexerTest.java
 
 FILE =  Lexer.java parser.java sym.java \
-        ParserTest.java \
+        ParserTest.java TypeCheckingTest.java\
+        SuperToken.java SymbolTable.java VarType.java\
         Program.java Memberdecls.java Fielddecls.java \
         Methoddecls.java Fielddecl.java Methoddecl.java \
         Argdecls.java ArgdeclList.java Argdecl.java \
@@ -27,8 +28,12 @@ FILE =  Lexer.java parser.java sym.java \
 
 run: myTest.as
 
+badDec.as: all
+	$(JAVA) -cp $(CP) TypeCheckingTest ./p3TestsCorrected/returnTypeBad.as > ./test-results/badDec-output.txt
+		cat -n ./test-results/badDec-output.txt
+
 myTest.as: all
-	$(JAVA) -cp $(CP) ParserTest ./tests/testSimple.as > ./test-results/testFile-output.txt
+	$(JAVA) -cp $(CP) TypeCheckingTest ./p3TestsCorrected/testFile.as > ./test-results/testFile-output.txt
 		cat -n ./test-results/testFile-output.txt
 
 test1.as: all

@@ -1,4 +1,4 @@
-class Printlist implements Token{
+class Printlist extends SuperToken implements Token{
     
     Expr expr;
     Printlist printlist;
@@ -21,10 +21,11 @@ class Printlist implements Token{
 
     public VarType typeCheck() throws Exception {
         VarType type = expr.typeCheck();
-
+        if (type.equals(VarType.Void)){
+            throw new Exception("Cant apply print on variables of type void");
+        }
         if (printlist != null)
             printlist.typeCheck();
-
         return type;
     }
 }

@@ -29,22 +29,31 @@ class Methoddecl extends SuperToken implements Token
     }
 
     public void typeCheck() throws Exception {
-
         VarType methodType = getTypeFromString(type);
+
         // TODO: Figure out how to deal with args
         if (!symbolTable.addVar(methodName, methodType, true, null)){
-            throw new Exception("Function " + methodType + " is already defined in this scope!");
+            throw new Exception("Function " + methodName + " is already defined in this scope!");
         }
 
-        typeCheckMethod();
+        typeCheckMethod(methodType);
 
     }
 
-    private void typeCheckMethod() throws Exception {
+    private void typeCheckMethod(VarType methodType) throws Exception {
         symbolTable.prependScope();
         argdecls.typeCheck();
         fielddecls.typeCheck();
         stmts.typeCheck();
+        // check for return
+        if (!methodType.equals(VarType.Void) && !containsRet){
+            throw new Exception("Fatal error: Missing return statement");
+        }
+
+        if (!isCoercible(methodType, getReturnType())){
+            throw new Exception("Fatal error: Incompatible types: " + getReturnType() + " doesn't match expected return type " + methodType);
+        }
         symbolTable.removeScope();
+        setContainsRet(false);
     }
 }

@@ -139,8 +139,8 @@ class Stmt extends SuperToken implements Token {
         switch (cond){
             case 1:
                 stmtType = expr.typeCheck();
-                if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int) && !stmtType.equals(VarType.Float))
-                    throw new Exception("Incompatible types: " + stmtType + " cannot converted to Boolean");
+                if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int))
+                    throw new Exception("Incompatible types: " + stmtType + " cannot be converted to Boolean");
 
                 typeCheckConditional(stmt);
                 if (elseStmt != null){
@@ -150,15 +150,18 @@ class Stmt extends SuperToken implements Token {
 
             case 2:
                 stmtType = expr.typeCheck();
-                if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int) && !stmtType.equals(VarType.Float))
-                    throw new Exception("Incompatible types: " + stmtType + " cannot converted to Boolean");
+                if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int))
+                    throw new Exception("Incompatible types: " + stmtType + " cannot be converted to Boolean");
                 typeCheckConditional(stmt);
                 break;
             case 3:
                 VarType nameType = name.typeCheck();
                 if (!nameType.equals(expr.typeCheck()))
-                    throw new Exception("Incompatible types: " + nameType + " and " + expr.typeCheck());
+                    throw new Exception("Fatal error: Incompatible types: " + expr.typeCheck() + " cannot be casted to " + nameType);
                 // TODO: fix final var from changing
+                var = symbolTable.findVar(name.ID);
+                if (var.isFinal)
+                    throw new Exception("Fatal error: Cannot reassign a value to final variable " + name.ID);
                 break;
             case 4:
                 readList.typeCheck();
@@ -173,22 +176,28 @@ class Stmt extends SuperToken implements Token {
                 // check if function exists in scope
                 var = symbolTable.findVar(ID);
                 if (var == null || !var.isMethod )
-                    throw new Exception("No method found by the name of " + ID);
+                    throw new Exception("Fatal error: No method found by the name of " + ID);
                 break;
             case 8:
                 var = symbolTable.findVar(ID);
                 if (var == null || !var.isMethod )
-                    throw new Exception("No method found by the name of " + ID);
+                    throw new Exception("Fatal error: No method found by the name of " + ID);
                 // check if method's arguments are comptible
                 args.typeCheck();
                 break;
             case 9:
+//                System.out.println(symbolTable.table.getFirst().);
+                setContainsRet(true);
+                setReturnType(VarType.Void);
                 return VarType.Void;
             case 10:
-                return expr.typeCheck();
+                VarType retType = expr.typeCheck();
+                setContainsRet(true);
+                setReturnType(retType);
+                return retType;
             case 11:
                 if (!name.typeCheck().equals(VarType.Int)){
-                    throw new Exception(name.ID + " cannot be casted to int for ++ or --");
+                    throw new Exception("Fatal Error: bad operand type " + name.typeCheck() + " for unary operator " + unaryOperator);
                 }
                 return VarType.Int;
             case 12:

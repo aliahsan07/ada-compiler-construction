@@ -121,19 +121,25 @@ class Expr extends SuperToken implements Token {
     }
 
     public VarType typeCheck() throws Exception {
+        SymbolTable.VarData fn;
+        VarType exprType;
+
+
         switch (cond){
             case 1:
                 return name.typeCheck();
             case 2:
-                SymbolTable.VarData fn = symbolTable.findVar(fnName);
+                fn = symbolTable.findVar(fnName);
                 if (!fn.isMethod)
                     throw new Exception("Method " + fnName + " is not defined");
-                return fn.typeCheck();
+                return fn.type;
             case 3:
-                SymbolTable.VarData fn = symbolTable.findVar(fnName);
+                fn = symbolTable.findVar(fnName);
                 if (!fn.isMethod)
                     throw new Exception("Method " + fnName + " is not defined");
-                return fn.typeCheck();
+                // TODO: check if correct args are passed or not
+                args.typeCheck();
+                return fn.type;
             case 4:
                 return VarType.Int;
             case 5:
@@ -148,19 +154,45 @@ class Expr extends SuperToken implements Token {
                 return singleExpr.typeCheck();
             case 10:
                 // check if unary operator is compatible with the expr that's followed.
-                return singleExpr.typeCheck();
+                exprType = singleExpr.typeCheck();
+                if (!exprType.equals(VarType.Int) && !exprType.equals(VarType.Float)){
+                    throw new Exception("Fatal Error: " + prefixOperator + " is incompatible with variables of type " + exprType);
+                }
+                return exprType;
             case 11:
                 // check if the type can be casted
-                return getTypeFromString(cast);
+                VarType castType = getTypeFromString(cast);
+                exprType = singleExpr.typeCheck();
+                boolean numericalConversion = !castType.equals(VarType.Int) && !castType.equals(VarType.Float) && !castType.equals(VarType.String);
+                if (singleExpr.typeCheck().equals(VarType.Int)){
+                    if (numericalConversion){
+                        throw new Exception("Unable to cast expression of type " + exprType + " to " + castType);
+                    }
+                }else if (singleExpr.typeCheck().equals(VarType.Float)){
+                    if (numericalConversion){
+                        throw new Exception("Unable to cast expression of type " + exprType + " to " + castType);
+                    }
+                }
+                return castType;
             case 12:
-                return VarType.Bool;
+                return binaryOp.typeCheck();
             case 13:
-                return VarType.Bool;
+                Expr conditional = multipleExpr[0];
+                VarType conditionalType = conditional.typeCheck();
+                VarType expr1Type = multipleExpr[1].typeCheck();
+                VarType expr2Type = multipleExpr[2].typeCheck();
+
+                if (!conditionalType.equals(VarType.Bool) && !conditionalType.equals(VarType.Int)){
+                    throw new Exception("Fatal error: Incompatible types: " + conditionalType + " cannot be converted to Boolean");
+                }
+                if (!expr1Type.equals(expr2Type)){
+                    throw new Exception("Fatal error: Incompatible types: " + expr1Type + " cannot be converted to " + expr2Type);
+                }
+                return expr1Type;
             default:
                 return null;
 
         }
     }
-
 
 }

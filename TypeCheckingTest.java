@@ -36,8 +36,9 @@ public class TypeCheckingTest{
         //Now test type checking
         try
         {
+            System.out.println("⌛ Initiating type checking!");
             program.typeCheck();
-            System.out.println("Type checking complete!");
+            System.out.println("✅ Type checking completed successfully!");
         }
         catch (Exception e)
         {

@@ -37,8 +37,8 @@ class Fielddecl extends SuperToken implements Token
         if (cond == 1){
             if (opExpr != null) {
                 // check if expr and variable have same type
-                if (!opExpr.typeCheck().equals(varType)) {
-                    throw new Exception("Variable type doesn't match expr type!");
+                if(!isCoercible(varType, opExpr.typeCheck())){
+                    throw new Exception("Fatal error: incompatible types: " + opExpr.typeCheck() + " cannot be converted to " + varType);
                 }
             }
             boolean response = symbolTable.addVar(ID, varType, false, false, isFinal);

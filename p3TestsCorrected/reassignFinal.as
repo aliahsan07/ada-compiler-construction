@@ -1,8 +1,8 @@
 class x
 {
-final int y = 1;
-void main()
-{
-y = 2;
-}
+    final int y = 1;
+    void main()
+    {
+        y = 222;
+    }
 }

@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
 
 // List of hashmaps implementation of Symbol table
 public class SymbolTable{
@@ -9,6 +10,10 @@ public class SymbolTable{
     public SymbolTable(){
         table = new LinkedList<HashMap<String, VarData>>();
     }
+
+//    public String getCurrentFnName(){
+//        HashMap<String, VarData> first = table.getFirst();
+//    }
 
     // setters for scope
     void prependScope(){
@@ -74,11 +79,16 @@ public class SymbolTable{
         boolean isMethod = false;
         boolean isArray = false;
         VarType type;
+//        boolean coherentReturn = false;
         HashMap<String, VarType> methodArgs;
 
         public VarData(VarType type){
             this.type = type;
         }
+
+//        public void setCoherentReturn(boolean coherentReturn) {
+//            this.coherentReturn = coherentReturn;
+//        }
 
         public VarData(VarType type, Boolean isArray){
             this.type = type;
@@ -102,26 +112,5 @@ public class SymbolTable{
 
     }
 
-
-//    class Variable{
-//
-//        String type;
-//        String name;
-//        HashMap<String, String> methodArgs;
-//
-//        public Variable(Var type, String name){
-//            this.type = type;
-//            this.name = name;
-//        }
-//
-//        public Variable(String type, String name, HashMap<String, String> methodArgs){
-//            this.type = type;
-//            this.name = name;
-//            this.methodArgs = methodArgs;
-//        }
-//
-//
-//
-//    }
 
 }
