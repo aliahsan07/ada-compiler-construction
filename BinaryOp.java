@@ -13,10 +13,14 @@ class BinaryOp extends SuperToken implements Token{
         return "(" + lhs.toString(t) + " " + operator + " " + rhs.toString(t) + ")";
     }
 
+
     public VarType typeCheck() throws Exception{
         if (operator.equals("+") || operator.equals("-") || operator.equals("*") || operator.equals("/")){
             VarType lhsType = lhs.typeCheck();
             VarType rhsType = rhs.typeCheck();
+
+//            System.out.println(lhsType);
+//            System.out.println(rhsType);
 
             if (lhsType.equals(VarType.String) && rhsType.equals(VarType.String) && operator.equals("+")) {
                 return VarType.String;
@@ -24,10 +28,12 @@ class BinaryOp extends SuperToken implements Token{
 
 
             if (! lhsType.equals(VarType.Float) && !lhs.equals(VarType.Int)){
-                throw new Exception("Fatal Error: Cant apply arithmetic operator on expression of type: " + lhsType + " and " + rhsType);
+                System.out.println("❌ Fatal error: Cant apply arithmetic operator " + operator + " on expression of type: " + lhsType + " and " + rhsType);
+                throw new Exception();
             }
             if (! rhsType.equals(VarType.Float) && !rhsType.equals(VarType.Int)){
-                throw new Exception("Fatal Error: Cant apply arithmetic operator on expression of type: " + rhsType  + " and " + rhsType);
+                System.out.println("❌ Fatal error: Cant apply arithmetic operator " + operator + " on expression of type: " + rhsType  + " and " + rhsType);
+                throw new Exception();
             }
 
             if (lhsType.equals(VarType.Int) && rhsType.equals(VarType.Int))
@@ -40,10 +46,12 @@ class BinaryOp extends SuperToken implements Token{
             VarType rhsType = rhs.typeCheck();
 
             if (!lhsType.equals(VarType.Bool) && !lhsType.equals(VarType.Int)){
-                throw new Exception("Fatal error: Incompatible types: " + lhsType + " cannot be converted to Boolean");
+                System.out.println("❌ Fatal error: Incompatible types: " + lhsType + " cannot be converted to Boolean");
+                throw new Exception();
             }
             if (!rhsType.equals(VarType.Bool) && !rhsType.equals(VarType.Int)){
-                throw new Exception("Fatal error: Incompatible types: " + rhsType + " cannot be converted to Boolean");
+                System.out.println("❌ Fatal error: Incompatible types: " + rhsType + " cannot be converted to Boolean");
+                throw new Exception();
             }
 
             return VarType.Bool;
@@ -53,11 +61,13 @@ class BinaryOp extends SuperToken implements Token{
             VarType rhsType = rhs.typeCheck();
 
             if (!lhsType.equals(VarType.Int) && !lhsType.equals(VarType.Float)){
-                throw new Exception("Fatal error: Incompatible types: " + operator + " and " + lhsType);
+                System.out.println("❌ Fatal error: Incompatible types: " + operator + " and " + lhsType);
+                throw new Exception();
             }
 
             if (!rhsType.equals(VarType.Int) && !rhsType.equals(VarType.Float)){
-                throw new Exception("Fatal error: Incompatible types: " + operator + " and " + rhsType);
+                System.out.println("❌ Fatal error: Incompatible types: " + operator + " and " + rhsType);
+                throw new Exception();
             }
             return VarType.Bool;
         }

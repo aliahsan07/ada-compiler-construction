@@ -130,15 +130,19 @@ class Expr extends SuperToken implements Token {
                 return name.typeCheck();
             case 2:
                 fn = symbolTable.findVar(fnName);
-                if (!fn.isMethod)
-                    throw new Exception("Method " + fnName + " is not defined");
+                if (fn == null || !fn.isMethod) {
+                    System.out.println("❌ Fatal error: No method found by the name of " + fn);
+                    throw new Exception();
+                }
                 return fn.type;
             case 3:
                 fn = symbolTable.findVar(fnName);
-                if (!fn.isMethod)
-                    throw new Exception("Method " + fnName + " is not defined");
+                if (fn == null || !fn.isMethod) {
+                    System.out.println("❌ Fatal error: No method found by the name of " + fn);
+                    throw new Exception();
+                }
                 // TODO: check if correct args are passed or not
-                args.typeCheck();
+                args.typeCheck(fnName, fn.methodArgs);
                 return fn.type;
             case 4:
                 return VarType.Int;
@@ -155,8 +159,16 @@ class Expr extends SuperToken implements Token {
             case 10:
                 // check if unary operator is compatible with the expr that's followed.
                 exprType = singleExpr.typeCheck();
-                if (!exprType.equals(VarType.Int) && !exprType.equals(VarType.Float)){
-                    throw new Exception("Fatal Error: " + prefixOperator + " is incompatible with variables of type " + exprType);
+                if (prefixOperator.equals("~")){
+                    if (!isCoercible(VarType.Bool, exprType)){
+                        System.out.println("❌ Fatal Error: " + prefixOperator + " is incompatible with variables of type " + exprType);
+                        throw new Exception();
+                    }
+                }else {
+                    if (!exprType.equals(VarType.Int) && !exprType.equals(VarType.Float)) {
+                        System.out.println("❌ Fatal Error: " + prefixOperator + " is incompatible with variables of type " + exprType);
+                        throw new Exception();
+                    }
                 }
                 return exprType;
             case 11:
@@ -166,11 +178,13 @@ class Expr extends SuperToken implements Token {
                 boolean numericalConversion = !castType.equals(VarType.Int) && !castType.equals(VarType.Float) && !castType.equals(VarType.String);
                 if (singleExpr.typeCheck().equals(VarType.Int)){
                     if (numericalConversion){
-                        throw new Exception("Unable to cast expression of type " + exprType + " to " + castType);
+                        System.out.println("❌ Unable to cast expression of type " + exprType + " to " + castType);
+                        throw new Exception();
                     }
                 }else if (singleExpr.typeCheck().equals(VarType.Float)){
                     if (numericalConversion){
-                        throw new Exception("Unable to cast expression of type " + exprType + " to " + castType);
+                        System.out.println("❌ Unable to cast expression of type " + exprType + " to " + castType);
+                        throw new Exception();
                     }
                 }
                 return castType;
@@ -183,10 +197,12 @@ class Expr extends SuperToken implements Token {
                 VarType expr2Type = multipleExpr[2].typeCheck();
 
                 if (!conditionalType.equals(VarType.Bool) && !conditionalType.equals(VarType.Int)){
-                    throw new Exception("Fatal error: Incompatible types: " + conditionalType + " cannot be converted to Boolean");
+                    System.out.println("❌ Fatal error: Incompatible types: " + conditionalType + " cannot be converted to Boolean");
+                    throw new Exception();
                 }
                 if (!expr1Type.equals(expr2Type)){
-                    throw new Exception("Fatal error: Incompatible types: " + expr1Type + " cannot be converted to " + expr2Type);
+                    System.out.println("❌ Fatal error: Incompatible types: expr1 type " + expr1Type + " doesn't match " + expr2Type + " type");
+                    throw new Exception();
                 }
                 return expr1Type;
             default:

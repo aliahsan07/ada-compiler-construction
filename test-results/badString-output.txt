@@ -1,0 +1,9 @@
+class x {
+	void main()
+	{
+		print(("test" - "other"));
+	}
+
+}
+⌛ Initiating type checking!
+java.lang.Exception: Fatal Error: Cant apply arithmetic operator - on expression of type: String and String

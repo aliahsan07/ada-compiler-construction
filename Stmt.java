@@ -139,9 +139,10 @@ class Stmt extends SuperToken implements Token {
         switch (cond){
             case 1:
                 stmtType = expr.typeCheck();
-                if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int))
-                    throw new Exception("Incompatible types: " + stmtType + " cannot be converted to Boolean");
-
+                if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int)) {
+                    System.out.println("❌ Incompatible types: " + stmtType + " cannot be converted to Boolean");
+                    throw new Exception();
+                }
                 typeCheckConditional(stmt);
                 if (elseStmt != null){
                     typeCheckConditional(elseStmt);
@@ -150,18 +151,24 @@ class Stmt extends SuperToken implements Token {
 
             case 2:
                 stmtType = expr.typeCheck();
-                if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int))
-                    throw new Exception("Incompatible types: " + stmtType + " cannot be converted to Boolean");
+                if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int)) {
+                    System.out.println("❌ Incompatible types: " + stmtType + " cannot be converted to Boolean");
+                    throw new Exception();
+                }
                 typeCheckConditional(stmt);
                 break;
             case 3:
                 VarType nameType = name.typeCheck();
-                if (!nameType.equals(expr.typeCheck()))
-                    throw new Exception("Fatal error: Incompatible types: " + expr.typeCheck() + " cannot be casted to " + nameType);
+                if (!nameType.equals(expr.typeCheck())) {
+                    System.out.println("❌ Fatal error: Incompatible types: " + expr.typeCheck() + " cannot be casted to " + nameType);
+                    throw new Exception();
+                }
                 // TODO: fix final var from changing
                 var = symbolTable.findVar(name.ID);
-                if (var.isFinal)
-                    throw new Exception("Fatal error: Cannot reassign a value to final variable " + name.ID);
+                if (var.isFinal) {
+                    System.out.println("❌ Fatal error: Cannot reassign a value to final variable " + name.ID);
+                    throw new Exception();
+                }
                 break;
             case 4:
                 readList.typeCheck();
@@ -175,15 +182,19 @@ class Stmt extends SuperToken implements Token {
             case 7:
                 // check if function exists in scope
                 var = symbolTable.findVar(ID);
-                if (var == null || !var.isMethod )
-                    throw new Exception("Fatal error: No method found by the name of " + ID);
+                if (var == null || !var.isMethod ) {
+                    System.out.println("❌ Fatal error: No method found by the name of " + ID);
+                    throw new Exception();
+                }
                 break;
             case 8:
                 var = symbolTable.findVar(ID);
-                if (var == null || !var.isMethod )
-                    throw new Exception("Fatal error: No method found by the name of " + ID);
-                // check if method's arguments are comptible
-                args.typeCheck();
+                if (var == null || !var.isMethod ) {
+                    System.out.println("❌ Fatal error: No method found by the name of " + ID);
+                    throw new Exception();
+                }
+                // check if method's arguments are compatible
+                args.typeCheck(ID, var.methodArgs);
                 break;
             case 9:
 //                System.out.println(symbolTable.table.getFirst().);
@@ -191,13 +202,16 @@ class Stmt extends SuperToken implements Token {
                 setReturnType(VarType.Void);
                 return VarType.Void;
             case 10:
+//                Boolean containsRet = getContainsRet();
+//                VarType prevReturnType = getReturnType();
                 VarType retType = expr.typeCheck();
                 setContainsRet(true);
                 setReturnType(retType);
                 return retType;
             case 11:
                 if (!name.typeCheck().equals(VarType.Int)){
-                    throw new Exception("Fatal Error: bad operand type " + name.typeCheck() + " for unary operator " + unaryOperator);
+                    System.out.println("❌ Fatal error: bad operand type " + name.typeCheck() + " for unary operator " + unaryOperator);
+                    throw new Exception();
                 }
                 return VarType.Int;
             case 12:

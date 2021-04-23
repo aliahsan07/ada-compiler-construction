@@ -1,0 +1,419 @@
+Processing ./p3TestsCorrected/badDec.as
+class x {
+	void main()
+	{
+		bool x;
+		x--;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: bad operand type Bool for unary operator --
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/badInc.as
+class x {
+	void main()
+	{
+		char y;
+		y++;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: bad operand type Char for unary operator ++
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/badNegation.as
+class x {
+	void main()
+	{
+		char y;
+		bool z = (~ y);
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal Error: ~ is incompatible with variables of type Char
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/badString.as
+class x {
+	void main()
+	{
+		print(("test" - "other"));
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: Cant apply arithmetic operator - on expression of type: String and String
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/badTernaryCond.as
+class x {
+	void main()
+	{
+		bool y = (1.0 ? true : false);
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: Incompatible types: Float cannot be converted to Boolean
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/badTernaryTypes.as
+class x {
+	void main()
+	{
+		float x = (true ? 1.0 : false);
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: Incompatible types: expr1 type Float doesn't match Bool type
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/boolToFloat.as
+class x {
+	void main()
+	{
+		float y = false;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: incompatible types: Bool cannot be converted to Float
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/boolToInt.as
+class x {
+	void main()
+	{
+		int y = false;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: incompatible types: Bool cannot be converted to Int
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/callNonExistFunc.as
+class x {
+	void main()
+	{
+		nonExistFoo();
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: No method found by the name of nonExistFoo
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/charToFloat.as
+class x {
+	void main()
+	{
+		char x;
+		float y;
+		y = x;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: Incompatible types: Char cannot be casted to Float
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/charToInt.as
+class x {
+	int main()
+	{
+		int y = 'c';
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: incompatible types: Char cannot be converted to Int
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/floatToInt.as
+class x {
+	void main()
+	{
+		int i = 1.0;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: incompatible types: Float cannot be converted to Int
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/fullValidProgramDE.as
+class testValid {
+	float sqrt(float square, float guess)
+	{
+		float nextGuess;
+		nextGuess = (0.5 * ((guess + (square / guess))));
+		if ((((nextGuess - guess) > (- 1.0E-5)) && ((nextGuess - guess) < 1.0E-5)))
+		{
+			return nextGuess;
+		}
+		return sqrt(square, nextGuess);
+	}
+
+	float getDistance(float vecA[], float vecB[], int size)
+	{
+		int i = 0;
+		float sum = 0;
+		while ((i < size))
+		{
+			sum = (sum + (((vecA[i] - vecB[i])) * ((vecA[i] - vecB[i]))));
+			i++;
+		}
+		return sqrt(sum, 2);
+	}
+
+	void main()
+	{
+		float a[10];
+		float b[10];
+		final int maxSize = 10;
+		int thisSize;
+		bool validInput;
+		int i;
+		print((("Input the size of your vectors: (max:" + maxSize) + ")"));
+		printline();
+		validInput = false;
+		while ((~ validInput))
+		{
+			read(thisSize);
+			if (((thisSize > 0) && (thisSize <= maxSize)))
+			{
+				validInput = true;
+			}
+			else
+			{
+				print((("Invalid size!\nInput the size of your vectors: (max:" + maxSize) + ")"));
+				printline();
+			}
+		}
+		i = 0;
+		while ((i < thisSize))
+		{
+			read(a[i], b[i]);
+			i++;
+		}
+		print("Distance between vectors is: ", getDistance(a, b, thisSize));
+	}
+
+}
+⌛ Initiating type checking!
+✅ Type checking completed successfully!
+
+
+Processing ./p3TestsCorrected/fullValidProgramFI.as
+class testValid {
+	float sqrt(float square, float guess)
+	{
+		float nextGuess;
+		nextGuess = (0.5 * ((guess + (square / guess))));
+		if ((((nextGuess - guess) > (- 1.0E-5)) && ((nextGuess - guess) < 1.0E-5)))
+		{
+			return nextGuess;
+		}
+		return sqrt(square, nextGuess);
+	}
+
+	float getDistance(float vecA[], float vecB[], int size)
+	{
+		int i = 0;
+		float sum = 0;
+		while ((i < size))
+		{
+			sum = (sum + (((vecA[i] - vecB[i])) * ((vecA[i] - vecB[i]))));
+			i++;
+		}
+		return sqrt(sum, 2);
+	}
+
+	void main()
+	{
+		float a[10];
+		float b[10];
+		final int maxSize = 10;
+		int thisSize;
+		bool validInput;
+		int i;
+		print((("Input the size of your vectors: (max:" + maxSize) + ")"));
+		printline();
+		validInput = false;
+		while ((~ validInput))
+		{
+			read(thisSize);
+			if (((thisSize > 0) && (thisSize <= maxSize)))
+			{
+				validInput = true;
+			}
+			else
+			{
+				print((("Invalid size!\nInput the size of your vectors: (max:" + maxSize) + ")"));
+				printline();
+			}
+		}
+		i = 0;
+		while ((i < thisSize))
+		{
+			read(a[i], b[i]);
+			i++;
+		}
+		print("Distance between vectors is: ", getDistance(a, b, thisSize));
+	}
+
+}
+⌛ Initiating type checking!
+✅ Type checking completed successfully!
+
+
+Processing ./p3TestsCorrected/incompatBinary.as
+class x {
+	int main()
+	{
+		float y;
+		while ((y || y))
+		{
+			return 1;
+		}
+		return 0;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: Incompatible types: Float cannot be converted to Boolean
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/intArrayToBoolArray.as
+class x {
+	int main()
+	{
+		int x[1];
+		bool y[1];
+		y = x;
+		return 0;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: Incompatible types: Int cannot be casted to Bool
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/noReturn.as
+class x {
+	int main()
+	{
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: Missing return statement
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/reassignFinal.as
+class x {
+	final int y = 1;
+	void main()
+	{
+		y = 222;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: Cannot reassign a value to final variable y
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/redefMethod.as
+class x {
+	void foo()
+	{
+	}
+
+	int foo(int x)
+	{
+		return 1;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Function foo is already defined in this scope!
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/redefVar.as
+class x {
+	int y;
+	char y;
+}
+⌛ Initiating type checking!
+❌ Variable y is already defined in this scope!
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/redefVarAsMethod.as
+class x {
+	char y;
+	void y()
+	{
+	}
+
+}
+⌛ Initiating type checking!
+❌ Function y is already defined in this scope!
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/returnTypeBad.as
+class x {
+	int foo()
+	{
+		return 1.0;
+	}
+
+}
+⌛ Initiating type checking!
+❌ Fatal error: Incompatible types: Float doesn't match expected return type Int
+java.lang.Exception
+
+
+Processing ./p3TestsCorrected/testFile.as
+class testValid {
+	void getDistance(char a, char b)
+	{
+		print(a);
+	}
+
+	void main()
+	{
+		char i = 'a';
+		char j = 'b';
+		getDistance(i, j);
+	}
+
+}
+⌛ Initiating type checking!
+✅ Type checking completed successfully!
+
+

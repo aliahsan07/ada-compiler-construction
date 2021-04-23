@@ -15,7 +15,6 @@ class testValid{
         nextGuess = 0.5 * (guess + square/guess);
         if (nextGuess - guess > -0.00001 && nextGuess - guess < 0.00001)
             return nextGuess;
-	fi
         return sqrt(square, nextGuess);
 	}
 
@@ -61,7 +60,6 @@ class testValid{
                     print("Invalid size!\nInput the size of your vectors: (max:" + maxSize + ")");
                     printline();
 		}	        
-		fi
 
 	    }
 	    i = 0;

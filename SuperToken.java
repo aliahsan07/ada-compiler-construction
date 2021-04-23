@@ -1,24 +1,37 @@
 abstract class SuperToken {
     protected static SymbolTable symbolTable;
 
-    protected static String currentFunc;
-    protected static Boolean containsRet = false;
-    protected static VarType returnType = null;
+
+
+    public static class CurrentFunction{
+        protected static String currentFunc;
+        protected static Boolean containsRet = false;
+        protected static VarType returnType = null;
+        protected static VarType expectedReturnType = null;
+    }
 
     public static void setContainsRet(Boolean containsRet) {
-        SuperToken.containsRet = containsRet;
+        CurrentFunction.containsRet = containsRet;
     }
 
     public static Boolean getContainsRet() {
-        return containsRet;
+        return CurrentFunction.containsRet;
     }
 
     public static void setReturnType(VarType returnType) {
-        SuperToken.returnType = returnType;
+        CurrentFunction.returnType = returnType;
     }
 
     public static VarType getReturnType() {
-        return returnType;
+        return CurrentFunction.returnType;
+    }
+
+    public static VarType getExpectedReturnType(){
+        return CurrentFunction.expectedReturnType;
+    }
+
+    public static void setExpectedReturnType(VarType type){
+        CurrentFunction.expectedReturnType = type;
     }
 
     public String toString(int t)
@@ -63,6 +76,23 @@ abstract class SuperToken {
             if (type2 == null || type2.equals(VarType.Void)) {
                 return true;
             }
+        }
+        else if (type1.equals(VarType.Bool)){
+            if (type2.equals(VarType.Bool) || type2.equals(VarType.Int)){
+                return true;
+            }
+        }
+        else if (type1.equals(VarType.Char)){
+            if (type2.equals(VarType.Char)){
+                return true;
+            }
+        }
+        else if (type1.equals(VarType.String)){
+            // TODO: handle the case of arrays
+            if (type2.equals(VarType.Void)){
+                return false;
+            }
+            return true;
         }
         return false;
     }

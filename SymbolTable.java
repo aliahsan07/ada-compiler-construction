@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 // List of hashmaps implementation of Symbol table
 public class SymbolTable{
@@ -43,7 +40,7 @@ public class SymbolTable{
         return true;
     }
 
-    public Boolean addVar(String name, VarType type, Boolean isMethod, HashMap<String, VarType> args){
+    public Boolean addVar(String name, VarType type, Boolean isMethod, List<VarType> args){
         if (table.getFirst().containsKey(name))
             return false;
         VarData var = new VarData(type, args);
@@ -80,7 +77,7 @@ public class SymbolTable{
         boolean isArray = false;
         VarType type;
 //        boolean coherentReturn = false;
-        HashMap<String, VarType> methodArgs;
+        List<VarType> methodArgs;
 
         public VarData(VarType type){
             this.type = type;
@@ -95,7 +92,7 @@ public class SymbolTable{
             this.isArray = isArray;
         }
 
-        public VarData(VarType type, HashMap<String, VarType> args){
+        public VarData(VarType type, List<VarType> args){
             this.type = type;
             this.isMethod = true;
             this.methodArgs = args;

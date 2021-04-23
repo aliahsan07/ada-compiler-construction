@@ -1,4 +1,4 @@
-class Stmts implements Token {
+class Stmts extends SuperToken implements Token {
     Stmt stmt;
     Stmts stmts;
 
@@ -20,9 +20,11 @@ class Stmts implements Token {
     }
 
     public void typeCheck() throws Exception{
-        if (stmt != null)
+        if (stmt != null) {
             stmt.typeCheck();
-        if (stmts != null)
+        }
+        if (stmts != null) {
             stmts.typeCheck();
+        }
     }
 }

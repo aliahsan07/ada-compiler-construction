@@ -17,8 +17,8 @@ class Argdecls extends SuperToken implements Token{
         return argdeclList.toString(t);
     }
 
-    public void typeCheck() throws Exception{
+    public void typeCheck(String methodName) throws Exception{
         if (argdeclList != null)
-            argdeclList.typeCheck();
+            argdeclList.typeCheck(methodName);
     }
 }

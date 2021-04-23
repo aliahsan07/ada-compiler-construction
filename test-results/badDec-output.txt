@@ -1,9 +1,0 @@
-class x {
-	int foo()
-	{
-		return 1.0;
-	}
-
-}
-Initiating type checking!
-java.lang.Exception: Fatal error: Incompatible types: Float doesn't match expected return type Int

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 
 class Methoddecl extends SuperToken implements Token
 {
@@ -30,10 +32,12 @@ class Methoddecl extends SuperToken implements Token
 
     public void typeCheck() throws Exception {
         VarType methodType = getTypeFromString(type);
+        setExpectedReturnType(methodType);
 
         // TODO: Figure out how to deal with args
         if (!symbolTable.addVar(methodName, methodType, true, null)){
-            throw new Exception("Function " + methodName + " is already defined in this scope!");
+            System.out.println("❌ Function " + methodName + " is already defined in this scope!");
+            throw new Exception();
         }
 
         typeCheckMethod(methodType);
@@ -42,18 +46,24 @@ class Methoddecl extends SuperToken implements Token
 
     private void typeCheckMethod(VarType methodType) throws Exception {
         symbolTable.prependScope();
-        argdecls.typeCheck();
+        symbolTable.findVar(methodName).methodArgs = new ArrayList<>();
+        argdecls.typeCheck(methodName);
         fielddecls.typeCheck();
         stmts.typeCheck();
+        VarType expectedReturnType = getExpectedReturnType();
+
         // check for return
-        if (!methodType.equals(VarType.Void) && !containsRet){
-            throw new Exception("Fatal error: Missing return statement");
+        if (!methodType.equals(VarType.Void) && !CurrentFunction.containsRet){
+            System.out.println("❌ Fatal error: Missing return statement");
+            throw new Exception();
         }
 
         if (!isCoercible(methodType, getReturnType())){
-            throw new Exception("Fatal error: Incompatible types: " + getReturnType() + " doesn't match expected return type " + methodType);
+            System.out.println("❌ Fatal error: Incompatible types: " + getReturnType() + " doesn't match expected return type " + methodType);
+            throw new Exception();
         }
         symbolTable.removeScope();
+        setReturnType(null);
         setContainsRet(false);
     }
 }

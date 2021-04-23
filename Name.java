@@ -24,7 +24,8 @@ public class Name extends SuperToken implements Token
       // error handling
       if (expr != null){
         if (!expr.typeCheck().equals(VarType.Int)){
-          throw new Exception("Expected int as array index, provided " + expr.typeCheck());
+          System.out.println("❌ Expected int as array index, provided " + expr.typeCheck());
+          throw new Exception();
         }
       }
       return symbolTable.findVar(ID).type;

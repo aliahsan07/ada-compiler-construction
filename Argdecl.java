@@ -18,17 +18,15 @@ class Argdecl extends SuperToken implements Token{
         return type + " " + ID + (isArray ? "[]" : "");
     }
 
-    public void typeCheck() throws Exception{
-//        HashMap<String, SymbolTable.VarData> first = symbolTable.table.getFirst();
-//        for (Map.Entry<String, SymbolTable.VarData> entry : first.entrySet()) {
-//            String key = entry.getKey();
-//            SymbolTable.VarData value = entry.getValue();
-//
-//            System.out.println ("Key: " + key + " Value: " + value);
-//        }
+    public VarType typeCheck() throws Exception{
 
-        Boolean exists = !symbolTable.addVar(ID, getTypeFromString(type), isArray);
-        if (exists)
-            throw new Exception("Variable " + ID + " is already defined in this scope.");
+        VarType officialType = getTypeFromString(type);
+
+        Boolean exists = !symbolTable.addVar(ID, officialType, isArray);
+        if (exists) {
+            System.out.println("❌ Variable " + ID + " is already defined in this scope.");
+            throw new Exception();
+        }
+        return officialType;
     }
 }

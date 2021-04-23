@@ -23,12 +23,15 @@ class Readlist extends SuperToken implements Token{
     public VarType typeCheck() throws Exception {
         SymbolTable.VarData nameStatus = symbolTable.findVar(name.ID);
 
-        if (!nameStatus.isFinal){
-            throw new Exception("Cant use read with final variable");
-        } else if (!nameStatus.isMethod){
-            throw new Exception("Cant use read with method");
-        } else if (!nameStatus.isArray){
-            throw new Exception("Cant use read with array");
+        if (nameStatus.isFinal){
+            System.out.println("❌ Fatal error: Cant use read with final variable");
+            throw new Exception();
+        } else if (nameStatus.isMethod){
+            System.out.println("❌ Fatal error: Cant use read with method");
+            throw new Exception();
+        } else if (nameStatus.isArray && name.expr == null){
+            System.out.println("❌ Fatal error: Cant use read with array");
+            throw new Exception();
         }
 
         if (readlist != null){

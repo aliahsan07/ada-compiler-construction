@@ -20,10 +20,12 @@ class ArgdeclList extends SuperToken implements Token{
         return argdecl.toString(t) + (argdeclList == null ? "" : ", " + argdeclList.toString(t));
     }
 
-    public void typeCheck() throws Exception{
-        if (argdecl != null)
-            argdecl.typeCheck();
+    public void typeCheck(String fnName) throws Exception{
+        if (argdecl != null) {
+            VarType argType = argdecl.typeCheck();
+            symbolTable.findVar(fnName).methodArgs.add(argType);
+        }
         if (argdeclList != null)
-            argdeclList.typeCheck();
+            argdeclList.typeCheck(fnName);
     }
 }

@@ -4,6 +4,7 @@ JFLEX=$(JAVA) -jar jflex-1.8.2/lib/jflex-full-1.8.2.jar
 CUPJAR=./java-cup-11b.jar
 CUP=$(JAVA) -jar $(CUPJAR)
 CP=.:$(CUPJAR)
+MYDIR = .
 
 default: run
 
@@ -28,9 +29,19 @@ FILE =  Lexer.java parser.java sym.java \
 
 run: myTest.as
 
-badDec.as: all
-	$(JAVA) -cp $(CP) TypeCheckingTest ./p3TestsCorrected/returnTypeBad.as > ./test-results/badDec-output.txt
-		cat -n ./test-results/badDec-output.txt
+list: all
+	rm -rf ./test-results/results.txt;
+	for file in ./p3TestsCorrected/*.as ; do \
+  		echo "Processing" $${file} >> ./test-results/results.txt; \
+  		echo "Processing" $${file}; \
+		$(JAVA) -cp $(CP) TypeCheckingTest $$file >> ./test-results/results.txt; \
+		echo "\n" >> ./test-results/results.txt; \
+	done; \
+	cat -n ./test-results/results.txt;
+
+typeCheckTest.as: all
+	$(JAVA) -cp $(CP) TypeCheckingTest ./p3TestsCorrected/badString.as > ./test-results/badString-output.txt
+		cat -n ./test-results/badString-output.txt
 
 myTest.as: all
 	$(JAVA) -cp $(CP) TypeCheckingTest ./p3TestsCorrected/testFile.as > ./test-results/testFile-output.txt
