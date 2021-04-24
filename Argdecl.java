@@ -25,7 +25,7 @@ class Argdecl extends SuperToken implements Token{
         Boolean exists = !symbolTable.addVar(ID, officialType, isArray);
         if (exists) {
             System.out.println("❌ Variable " + ID + " is already defined in this scope.");
-            throw new Exception();
+            System.exit(0);
         }
         return officialType;
     }

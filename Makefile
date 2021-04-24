@@ -27,7 +27,7 @@ FILE =  Lexer.java parser.java sym.java \
         Printlinelist.java Expr.java BinaryOp.java Token.java
 
 
-run: myTest.as
+run: list
 
 list: all
 	rm -rf ./test-results/results.txt;
@@ -40,8 +40,8 @@ list: all
 	cat -n ./test-results/results.txt;
 
 typeCheckTest.as: all
-	$(JAVA) -cp $(CP) TypeCheckingTest ./p3TestsCorrected/badString.as > ./test-results/badString-output.txt
-		cat -n ./test-results/badString-output.txt
+	$(JAVA) -cp $(CP) TypeCheckingTest ./p3TestsCorrected/testFile.as > ./test-results/testFile-output.txt
+		cat -n ./test-results/testFile-output.txt
 
 myTest.as: all
 	$(JAVA) -cp $(CP) TypeCheckingTest ./p3TestsCorrected/testFile.as > ./test-results/testFile-output.txt

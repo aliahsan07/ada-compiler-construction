@@ -131,15 +131,15 @@ class Expr extends SuperToken implements Token {
             case 2:
                 fn = symbolTable.findVar(fnName);
                 if (fn == null || !fn.isMethod) {
-                    System.out.println("❌ Fatal error: No method found by the name of " + fn);
-                    throw new Exception();
+                    System.out.println("❌ Fatal error: No method found by the name of " + fnName);
+                    System.exit(0);
                 }
                 return fn.type;
             case 3:
                 fn = symbolTable.findVar(fnName);
                 if (fn == null || !fn.isMethod) {
-                    System.out.println("❌ Fatal error: No method found by the name of " + fn);
-                    throw new Exception();
+                    System.out.println("❌ Fatal error: No method found by the name of " + fnName);
+                    System.exit(0);
                 }
                 // TODO: check if correct args are passed or not
                 args.typeCheck(fnName, fn.methodArgs);
@@ -162,12 +162,12 @@ class Expr extends SuperToken implements Token {
                 if (prefixOperator.equals("~")){
                     if (!isCoercible(VarType.Bool, exprType)){
                         System.out.println("❌ Fatal Error: " + prefixOperator + " is incompatible with variables of type " + exprType);
-                        throw new Exception();
+                        System.exit(0);
                     }
                 }else {
                     if (!exprType.equals(VarType.Int) && !exprType.equals(VarType.Float)) {
                         System.out.println("❌ Fatal Error: " + prefixOperator + " is incompatible with variables of type " + exprType);
-                        throw new Exception();
+                        System.exit(0);
                     }
                 }
                 return exprType;
@@ -179,12 +179,12 @@ class Expr extends SuperToken implements Token {
                 if (singleExpr.typeCheck().equals(VarType.Int)){
                     if (numericalConversion){
                         System.out.println("❌ Unable to cast expression of type " + exprType + " to " + castType);
-                        throw new Exception();
+                        System.exit(0);
                     }
                 }else if (singleExpr.typeCheck().equals(VarType.Float)){
                     if (numericalConversion){
                         System.out.println("❌ Unable to cast expression of type " + exprType + " to " + castType);
-                        throw new Exception();
+                        System.exit(0);
                     }
                 }
                 return castType;
@@ -198,11 +198,11 @@ class Expr extends SuperToken implements Token {
 
                 if (!conditionalType.equals(VarType.Bool) && !conditionalType.equals(VarType.Int)){
                     System.out.println("❌ Fatal error: Incompatible types: " + conditionalType + " cannot be converted to Boolean");
-                    throw new Exception();
+                    System.exit(0);
                 }
                 if (!expr1Type.equals(expr2Type)){
-                    System.out.println("❌ Fatal error: Incompatible types: expr1 type " + expr1Type + " doesn't match " + expr2Type + " type");
-                    throw new Exception();
+                    System.out.println("❌ Fatal error: Incompatible types: expr1 type " + expr1Type + " doesn't match expr2 type " + expr2Type);
+                    System.exit(0);
                 }
                 return expr1Type;
             default:

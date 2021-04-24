@@ -1,16 +1,14 @@
-class testValid{
-
-	void getDistance(char a, char b)
-    {
-        print(a);
-    }
-
+class testClass
+{
+	int x;
     void main()
     {
+        int y[5];
 
-        char i = 'a';
-        char j = 'b';
 
-        getDistance(i, j);
+        read(y[1]);
+        print(y[1]);
     }
+
+
 }

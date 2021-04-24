@@ -29,11 +29,11 @@ class BinaryOp extends SuperToken implements Token{
 
             if (! lhsType.equals(VarType.Float) && !lhs.equals(VarType.Int)){
                 System.out.println("❌ Fatal error: Cant apply arithmetic operator " + operator + " on expression of type: " + lhsType + " and " + rhsType);
-                throw new Exception();
+                System.exit(0);
             }
             if (! rhsType.equals(VarType.Float) && !rhsType.equals(VarType.Int)){
                 System.out.println("❌ Fatal error: Cant apply arithmetic operator " + operator + " on expression of type: " + rhsType  + " and " + rhsType);
-                throw new Exception();
+                System.exit(0);
             }
 
             if (lhsType.equals(VarType.Int) && rhsType.equals(VarType.Int))
@@ -47,11 +47,11 @@ class BinaryOp extends SuperToken implements Token{
 
             if (!lhsType.equals(VarType.Bool) && !lhsType.equals(VarType.Int)){
                 System.out.println("❌ Fatal error: Incompatible types: " + lhsType + " cannot be converted to Boolean");
-                throw new Exception();
+                System.exit(0);
             }
             if (!rhsType.equals(VarType.Bool) && !rhsType.equals(VarType.Int)){
                 System.out.println("❌ Fatal error: Incompatible types: " + rhsType + " cannot be converted to Boolean");
-                throw new Exception();
+                System.exit(0);
             }
 
             return VarType.Bool;
@@ -62,12 +62,12 @@ class BinaryOp extends SuperToken implements Token{
 
             if (!lhsType.equals(VarType.Int) && !lhsType.equals(VarType.Float)){
                 System.out.println("❌ Fatal error: Incompatible types: " + operator + " and " + lhsType);
-                throw new Exception();
+                System.exit(0);
             }
 
             if (!rhsType.equals(VarType.Int) && !rhsType.equals(VarType.Float)){
                 System.out.println("❌ Fatal error: Incompatible types: " + operator + " and " + rhsType);
-                throw new Exception();
+                System.exit(0);
             }
             return VarType.Bool;
         }

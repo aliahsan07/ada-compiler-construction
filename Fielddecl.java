@@ -39,20 +39,20 @@ class Fielddecl extends SuperToken implements Token
                 // check if expr and variable have same type
                 if(!isCoercible(varType, opExpr.typeCheck())){
                     System.out.println("❌ Fatal error: incompatible types: " + opExpr.typeCheck() + " cannot be converted to " + varType);
-                    throw new Exception();
+                    System.exit(0);
                 }
             }
             boolean response = symbolTable.addVar(ID, varType, false, false, isFinal);
             if (!response) {
                 System.out.println("❌ Variable " + ID + " is already defined in this scope!");
-                throw new Exception();
+                System.exit(0);
             }
         } else{
             // adding array to current scope
             boolean response = symbolTable.addVar(ID, varType, true);
             if (!response) {
                 System.out.println("❌ Variable " + ID + " is already defined in this scope!");
-                throw new Exception();
+                System.exit(0);
             }
         }
     }

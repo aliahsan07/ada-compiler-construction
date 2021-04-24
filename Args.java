@@ -43,7 +43,7 @@ class Args extends SuperToken implements Token{
 
         if (argTypes.size() != methodArgs.size()){
             System.out.println("❌ Fatal error: Function " + fnName + " expected " + methodArgs.size() + " arguments, " + argTypes.size() + " provided");
-            throw new Exception();
+            System.exit(0);
         }
 
         for (int i=0; i < methodArgs.size(); i++){
@@ -52,7 +52,7 @@ class Args extends SuperToken implements Token{
 
             if (!isCoercible(expectedArg, actualArg)){
                 System.out.println("❌ Fatal error: Expected argument of type " + expectedArg + " in position " + i + " of function " + fnName + ", " + actualArg + " provided");
-                throw new Exception();
+                System.exit(0);
             }
         }
 

@@ -28,7 +28,7 @@ class Printlist extends SuperToken implements Token{
             type = expr.typeCheck();
             if (type.equals(VarType.Void)) {
                 System.out.println("❌ Cant apply print on variables of type void");
-                throw new Exception();
+                System.exit(0);
             }
         }
         if (printlist != null)

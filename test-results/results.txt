@@ -9,7 +9,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: bad operand type Bool for unary operator --
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/badInc.as
@@ -23,7 +22,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: bad operand type Char for unary operator ++
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/badNegation.as
@@ -37,7 +35,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal Error: ~ is incompatible with variables of type Char
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/badString.as
@@ -50,7 +47,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: Cant apply arithmetic operator - on expression of type: String and String
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/badTernaryCond.as
@@ -63,7 +59,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: Incompatible types: Float cannot be converted to Boolean
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/badTernaryTypes.as
@@ -75,8 +70,7 @@ class x {
 
 }
 ⌛ Initiating type checking!
-❌ Fatal error: Incompatible types: expr1 type Float doesn't match Bool type
-java.lang.Exception
+❌ Fatal error: Incompatible types: expr1 type Float doesn't match expr2 type Bool
 
 
 Processing ./p3TestsCorrected/boolToFloat.as
@@ -89,7 +83,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: incompatible types: Bool cannot be converted to Float
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/boolToInt.as
@@ -102,7 +95,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: incompatible types: Bool cannot be converted to Int
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/callNonExistFunc.as
@@ -115,7 +107,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: No method found by the name of nonExistFoo
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/charToFloat.as
@@ -130,7 +121,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: Incompatible types: Char cannot be casted to Float
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/charToInt.as
@@ -143,7 +133,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: incompatible types: Char cannot be converted to Int
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/floatToInt.as
@@ -156,7 +145,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: incompatible types: Float cannot be converted to Int
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/fullValidProgramDE.as
@@ -300,7 +288,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: Incompatible types: Float cannot be converted to Boolean
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/intArrayToBoolArray.as
@@ -316,7 +303,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: Incompatible types: Int cannot be casted to Bool
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/noReturn.as
@@ -327,8 +313,7 @@ class x {
 
 }
 ⌛ Initiating type checking!
-❌ Fatal error: Missing return statement
-java.lang.Exception
+❌ Fatal error: Missing return statement from function main
 
 
 Processing ./p3TestsCorrected/reassignFinal.as
@@ -342,7 +327,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: Cannot reassign a value to final variable y
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/redefMethod.as
@@ -359,7 +343,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Function foo is already defined in this scope!
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/redefVar.as
@@ -369,7 +352,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Variable y is already defined in this scope!
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/redefVarAsMethod.as
@@ -382,7 +364,6 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Function y is already defined in this scope!
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/returnTypeBad.as
@@ -395,21 +376,16 @@ class x {
 }
 ⌛ Initiating type checking!
 ❌ Fatal error: Incompatible types: Float doesn't match expected return type Int
-java.lang.Exception
 
 
 Processing ./p3TestsCorrected/testFile.as
-class testValid {
-	void getDistance(char a, char b)
-	{
-		print(a);
-	}
-
+class testClass {
+	int x;
 	void main()
 	{
-		char i = 'a';
-		char j = 'b';
-		getDistance(i, j);
+		int y[5];
+		read(y[1]);
+		print(y[1]);
 	}
 
 }

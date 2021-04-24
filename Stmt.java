@@ -141,7 +141,7 @@ class Stmt extends SuperToken implements Token {
                 stmtType = expr.typeCheck();
                 if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int)) {
                     System.out.println("❌ Incompatible types: " + stmtType + " cannot be converted to Boolean");
-                    throw new Exception();
+                    System.exit(0);
                 }
                 typeCheckConditional(stmt);
                 if (elseStmt != null){
@@ -153,7 +153,7 @@ class Stmt extends SuperToken implements Token {
                 stmtType = expr.typeCheck();
                 if (!stmtType.equals(VarType.Bool) && !stmtType.equals(VarType.Int)) {
                     System.out.println("❌ Incompatible types: " + stmtType + " cannot be converted to Boolean");
-                    throw new Exception();
+                    System.exit(0);
                 }
                 typeCheckConditional(stmt);
                 break;
@@ -161,13 +161,13 @@ class Stmt extends SuperToken implements Token {
                 VarType nameType = name.typeCheck();
                 if (!nameType.equals(expr.typeCheck())) {
                     System.out.println("❌ Fatal error: Incompatible types: " + expr.typeCheck() + " cannot be casted to " + nameType);
-                    throw new Exception();
+                    System.exit(0);
                 }
                 // TODO: fix final var from changing
                 var = symbolTable.findVar(name.ID);
                 if (var.isFinal) {
                     System.out.println("❌ Fatal error: Cannot reassign a value to final variable " + name.ID);
-                    throw new Exception();
+                    System.exit(0);
                 }
                 break;
             case 4:
@@ -184,14 +184,14 @@ class Stmt extends SuperToken implements Token {
                 var = symbolTable.findVar(ID);
                 if (var == null || !var.isMethod ) {
                     System.out.println("❌ Fatal error: No method found by the name of " + ID);
-                    throw new Exception();
+                    System.exit(0);
                 }
                 break;
             case 8:
                 var = symbolTable.findVar(ID);
                 if (var == null || !var.isMethod ) {
                     System.out.println("❌ Fatal error: No method found by the name of " + ID);
-                    throw new Exception();
+                    System.exit(0);
                 }
                 // check if method's arguments are compatible
                 args.typeCheck(ID, var.methodArgs);
@@ -211,7 +211,7 @@ class Stmt extends SuperToken implements Token {
             case 11:
                 if (!name.typeCheck().equals(VarType.Int)){
                     System.out.println("❌ Fatal error: bad operand type " + name.typeCheck() + " for unary operator " + unaryOperator);
-                    throw new Exception();
+                    System.exit(0);
                 }
                 return VarType.Int;
             case 12:

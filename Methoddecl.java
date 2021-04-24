@@ -37,7 +37,7 @@ class Methoddecl extends SuperToken implements Token
         // TODO: Figure out how to deal with args
         if (!symbolTable.addVar(methodName, methodType, true, null)){
             System.out.println("❌ Function " + methodName + " is already defined in this scope!");
-            throw new Exception();
+            System.exit(0);
         }
 
         typeCheckMethod(methodType);
@@ -54,13 +54,13 @@ class Methoddecl extends SuperToken implements Token
 
         // check for return
         if (!methodType.equals(VarType.Void) && !CurrentFunction.containsRet){
-            System.out.println("❌ Fatal error: Missing return statement");
-            throw new Exception();
+            System.out.println("❌ Fatal error: Missing return statement from function " + methodName);
+            System.exit(0);
         }
 
         if (!isCoercible(methodType, getReturnType())){
             System.out.println("❌ Fatal error: Incompatible types: " + getReturnType() + " doesn't match expected return type " + methodType);
-            throw new Exception();
+            System.exit(0);
         }
         symbolTable.removeScope();
         setReturnType(null);
